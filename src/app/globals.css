@@ -1,0 +1,45 @@
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Manrope:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: dark;
+  --font-display: 'Fraunces', Georgia, serif;
+  --font-body: 'Manrope', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background-color: theme(colors.bg);
+  color: theme(colors.text);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4 { font-family: var(--font-display); font-weight: 500; letter-spacing: -0.01em; }
+
+::selection { background: theme(colors.gold); color: #0A0C10; }
+
+.kicker { font-family: var(--font-mono); font-size: 0.72rem; letter-spacing: 0.22em; text-transform: uppercase; color: theme(colors.gold); }
+.gold-text { color: theme(colors.gold-2); }
+
+.btn { display: inline-flex; align-items: center; gap: 8px; cursor: pointer; font-size: 0.92rem; font-weight: 600; border-radius: 999px; padding: 12px 24px; transition: 0.25s; text-decoration: none; }
+.btn-solid { background: theme(colors.gold); color: #0A0C10; border: 1px solid theme(colors.gold); }
+.btn-solid:hover { background: theme(colors.gold-2); }
+.btn-ghost { background: transparent; color: theme(colors.gold-2); border: 1px solid theme(colors.line); }
+.btn-ghost:hover { border-color: theme(colors.gold); }
+
+.prose-rupali {
+  --tw-prose-body: theme(colors.text);
+  --tw-prose-headings: theme(colors.cream);
+  --tw-prose-links: theme(colors.gold-2);
+  --tw-prose-bold: theme(colors.cream);
+  --tw-prose-quotes: theme(colors.muted);
+  --tw-prose-bullets: theme(colors.gold);
+  --tw-prose-hr: theme(colors.line);
+  max-width: 72ch;
+}
+.prose-rupali h2, .prose-rupali h3 { font-family: var(--font-display); margin-top: 1.6em; }
