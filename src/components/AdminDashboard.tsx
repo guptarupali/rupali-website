@@ -619,42 +619,86 @@ function BlogEditor({
   onCancel: () => void;
   saving: boolean;
 }) {
+  const categories = [
+    'Platform Engineering',
+    'AI & Machine Learning',
+    'Leadership',
+    'DevOps',
+    'Cloud Architecture',
+    'Engineering Excellence',
+    'Developer Experience',
+    'FinTech',
+    'Observability',
+    'Security',
+  ];
+
+  // Auto-generate slug from title
+  const generateSlug = (title: string) => {
+    return title
+      .toLowerCase()
+      .trim()
+      .replace(/[^\w\s-]/g, '')
+      .replace(/\s+/g, '-')
+      .replace(/-+/g, '-')
+      .substring(0, 100);
+  };
+
+  const handleTitleChange = (title: string) => {
+    setPost({
+      ...post,
+      title,
+      // Auto-generate slug if not manually edited
+      slug: !post.slug || post.slug === generateSlug(post.title || '') ? generateSlug(title) : post.slug,
+    });
+  };
+
   return (
     <div className="space-y-4">
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>
-          <label className="text-sm text-cream mb-2 block">Title</label>
+          <label className="text-sm text-cream mb-2 block">Title *</label>
           <input
             placeholder="Post Title"
             value={post.title || ''}
-            onChange={e => setPost({ ...post, title: e.target.value })}
+            onChange={e => handleTitleChange(e.target.value)}
             className="w-full px-4 py-2 rounded-lg bg-bg border border-line-2 text-cream focus:outline-none focus:border-gold"
           />
         </div>
         <div>
-          <label className="text-sm text-cream mb-2 block">Slug (URL friendly)</label>
+          <label className="text-sm text-cream mb-2 block">Slug (URL) *</label>
           <input
-            placeholder="post-slug"
+            placeholder="auto-generated from title"
             value={post.slug || ''}
             onChange={e => setPost({ ...post, slug: e.target.value })}
             className="w-full px-4 py-2 rounded-lg bg-bg border border-line-2 text-cream focus:outline-none focus:border-gold"
           />
+          <p className="text-xs text-muted mt-1">Auto-generated from title. Edit to customize.</p>
         </div>
       </div>
 
       {type === 'blog' && (
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
-            <label className="text-sm text-cream mb-2 block">Category</label>
-            <input
-              placeholder="e.g., Platform Engineering"
+            <label className="text-sm text-cream mb-2 block">Category *</label>
+            <select
               value={post.category || ''}
               onChange={e => setPost({ ...post, category: e.target.value })}
-              className="w-full px-4 py-2 rounded-lg bg-bg border border-line-2 text-cream focus:outline-none focus:border-gold"
-            />
+              className="w-full px-4 py-2 rounded-lg bg-bg border border-line-2 text-cream focus:outline-none focus:border-gold cursor-pointer"
+            >
+              <option value="">Select a category...</option>
+              {categories.map(cat => (
+                <option key={cat} value={cat}>
+                  {cat}
+                </option>
+              ))}
+              <option value="" disabled>
+                ─────────────────
+              </option>
+              <option value="__custom__">+ Custom category</option>
+            </select>
           </div>
           <div>
-            <label className="text-sm text-cream mb-2 block">Date</label>
+            <label className="text-sm text-cream mb-2 block">Date *</label>
             <input
               type="date"
               value={post.date ? post.date.split('T')[0] : new Date().toISOString().split('T')[0]}
@@ -662,6 +706,18 @@ function BlogEditor({
               className="w-full px-4 py-2 rounded-lg bg-bg border border-line-2 text-cream focus:outline-none focus:border-gold"
             />
           </div>
+        </div>
+      )}
+
+      {type === 'blog' && post.category === '__custom__' && (
+        <div>
+          <label className="text-sm text-cream mb-2 block">Custom Category Name</label>
+          <input
+            placeholder="Enter custom category"
+            value={post.customCategory || ''}
+            onChange={e => setPost({ ...post, customCategory: e.target.value, category: e.target.value })}
+            className="w-full px-4 py-2 rounded-lg bg-bg border border-line-2 text-cream focus:outline-none focus:border-gold"
+          />
         </div>
       )}
 
@@ -676,7 +732,7 @@ function BlogEditor({
       </div>
 
       <div>
-        <label className="text-sm text-cream mb-2 block">Content (Markdown)</label>
+        <label className="text-sm text-cream mb-2 block">Content (Markdown) *</label>
         <textarea
           placeholder="Write your post here... Supports Markdown"
           value={post.content || ''}
