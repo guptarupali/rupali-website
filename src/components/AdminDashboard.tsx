@@ -393,22 +393,24 @@ export function AdminDashboard({ onLogout }: { onLogout: () => void }) {
           ) : (
             <>
               {!isEditing && (
-                {(activeTab === 'blog' || activeTab === 'newsletter') && (
-                  <button
-                    onClick={handleNew}
-                    className="mb-6 px-4 py-2 rounded-lg bg-gold text-bg font-medium hover:bg-gold-2 transition"
-                  >
-                    + Write {activeTab === 'blog' ? 'Blog' : 'Newsletter'}
-                  </button>
-                )}
-                {activeTab !== 'blog' && activeTab !== 'newsletter' && (
-                  <button
-                    onClick={handleNew}
-                    className="mb-6 px-4 py-2 rounded-lg bg-gold text-bg font-medium hover:bg-gold-2 transition"
-                  >
-                    + Add New {tabs.find(t => t.id === activeTab)?.label.slice(0, -1)}
-                  </button>
-                )}
+                <>
+                  {(activeTab === 'blog' || activeTab === 'newsletter') && (
+                    <button
+                      onClick={handleNew}
+                      className="mb-6 px-4 py-2 rounded-lg bg-gold text-bg font-medium hover:bg-gold-2 transition"
+                    >
+                      + Write {activeTab === 'blog' ? 'Blog' : 'Newsletter'}
+                    </button>
+                  )}
+                  {activeTab !== 'blog' && activeTab !== 'newsletter' && (
+                    <button
+                      onClick={handleNew}
+                      className="mb-6 px-4 py-2 rounded-lg bg-gold text-bg font-medium hover:bg-gold-2 transition"
+                    >
+                      + Add New {tabs.find(t => t.id === activeTab)?.label.slice(0, -1)}
+                    </button>
+                  )}
+                </>
               )}
 
               {isEditing ? (
