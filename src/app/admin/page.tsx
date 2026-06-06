@@ -68,6 +68,12 @@ export default function AdminPage() {
     setLoading(true);
     setError('');
 
+    if (!code || code.length !== 6) {
+      setError('⚠ Enter the complete 6-digit code');
+      setLoading(false);
+      return;
+    }
+
     try {
       const response = await fetch('/api/admin/verify-otp', {
         method: 'POST',
@@ -81,10 +87,14 @@ export default function AdminPage() {
         setIsAuthenticated(true);
         setCode('');
       } else {
-        setError(data.error || 'Invalid code');
+        if (response.status === 400) {
+          setError('⚠ Code is invalid or expired. Try resending a new one.');
+        } else {
+          setError(data.error || 'Verification failed');
+        }
       }
     } catch (err) {
-      setError('Verification failed');
+      setError('⚠ Connection error. Check your internet and try again.');
       console.error(err);
     } finally {
       setLoading(false);
