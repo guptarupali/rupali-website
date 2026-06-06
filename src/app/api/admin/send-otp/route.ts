@@ -33,8 +33,8 @@ export async function POST(request: NextRequest) {
 
     // Send email via Resend
     try {
-      await resend.emails.send({
-        from: 'Admin <onboarding@resend.dev>',
+      const emailResponse = await resend.emails.send({
+        from: 'Rupali Gupta <onboarding@resend.dev>',
         to: email,
         subject: 'Your Admin Dashboard Access Code',
         html: `
@@ -50,10 +50,22 @@ export async function POST(request: NextRequest) {
           </div>
         `,
       });
+
+      // Check if email send was successful
+      if (emailResponse.error) {
+        console.error('Resend API error:', emailResponse.error);
+        return NextResponse.json(
+          { error: `Email service error: ${emailResponse.error.message || 'Unknown error'}` },
+          { status: 500 }
+        );
+      }
+
+      console.log('Email sent successfully:', emailResponse.id);
     } catch (emailError) {
       console.error('Email send error:', emailError);
+      const errorMessage = emailError instanceof Error ? emailError.message : 'Unknown error';
       return NextResponse.json(
-        { error: 'Failed to send OTP email' },
+        { error: `Failed to send OTP: ${errorMessage}` },
         { status: 500 }
       );
     }
