@@ -393,12 +393,22 @@ export function AdminDashboard({ onLogout }: { onLogout: () => void }) {
           ) : (
             <>
               {!isEditing && (
-                <button
-                  onClick={handleNew}
-                  className="mb-6 px-4 py-2 rounded-lg bg-gold text-bg font-medium hover:bg-gold-2 transition"
-                >
-                  + Add New {tabs.find(t => t.id === activeTab)?.label.slice(0, -1)}
-                </button>
+                {(activeTab === 'blog' || activeTab === 'newsletter') && (
+                  <button
+                    onClick={handleNew}
+                    className="mb-6 px-4 py-2 rounded-lg bg-gold text-bg font-medium hover:bg-gold-2 transition"
+                  >
+                    + Write {activeTab === 'blog' ? 'Blog' : 'Newsletter'}
+                  </button>
+                )}
+                {activeTab !== 'blog' && activeTab !== 'newsletter' && (
+                  <button
+                    onClick={handleNew}
+                    className="mb-6 px-4 py-2 rounded-lg bg-gold text-bg font-medium hover:bg-gold-2 transition"
+                  >
+                    + Add New {tabs.find(t => t.id === activeTab)?.label.slice(0, -1)}
+                  </button>
+                )}
               )}
 
               {isEditing ? (
@@ -773,6 +783,8 @@ function BlogList({
     );
   }
 
+  const baseUrl = type === 'blog' ? '/blog/' : '/newsletters/';
+
   return (
     <div className="space-y-3">
       {posts.map(post => (
@@ -780,12 +792,19 @@ function BlogList({
           key={post.slug}
           className="flex flex-col sm:flex-row justify-between items-start sm:items-center p-4 rounded-lg bg-bg border border-line-2 hover:border-gold transition gap-3"
         >
-          <div className="flex-1">
-            <p className="text-cream font-medium">{post.title}</p>
+          <div className="flex-1 min-w-0">
+            <a
+              href={`${baseUrl}${post.slug}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-cream font-medium hover:text-gold transition block truncate"
+            >
+              {post.title}
+            </a>
             <p className="text-muted text-sm">{post.slug}</p>
             {post.date && <p className="text-muted text-xs mt-1">{new Date(post.date).toLocaleDateString()}</p>}
           </div>
-          <div className="flex gap-2 w-full sm:w-auto">
+          <div className="flex gap-2 w-full sm:w-auto flex-shrink-0">
             <button
               onClick={() => onEdit(post)}
               className="flex-1 sm:flex-none px-4 py-2 rounded text-sm bg-gold/20 text-gold hover:bg-gold/30 transition font-medium"
