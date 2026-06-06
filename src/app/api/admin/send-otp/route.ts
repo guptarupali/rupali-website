@@ -60,7 +60,15 @@ export async function POST(request: NextRequest) {
         );
       }
 
-      console.log('Email sent successfully:', emailResponse.id);
+      if (!emailResponse.data) {
+        console.error('No data in Resend response');
+        return NextResponse.json(
+          { error: 'Email service returned invalid response' },
+          { status: 500 }
+        );
+      }
+
+      console.log('Email sent successfully:', emailResponse.data.id);
     } catch (emailError) {
       console.error('Email send error:', emailError);
       const errorMessage = emailError instanceof Error ? emailError.message : 'Unknown error';
