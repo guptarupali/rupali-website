@@ -42,7 +42,14 @@ export function AdminDashboard({ onLogout }: { onLogout: () => void }) {
 
   useEffect(() => {
     fetchData();
+    loadBlogPosts();
   }, []);
+
+  useEffect(() => {
+    if (activeTab === 'blog' || activeTab === 'newsletter') {
+      loadBlogPosts();
+    }
+  }, [activeTab]);
 
   const fetchData = async () => {
     try {
@@ -57,9 +64,38 @@ export function AdminDashboard({ onLogout }: { onLogout: () => void }) {
     }
   };
 
-  const loadBlogPosts = () => {
-    // For now, just track locally. In a real app, you'd fetch from GitHub.
-    // The admin will manage posts in local state for simplicity.
+  const loadBlogPosts = async () => {
+    // For now, we'll track published posts in localStorage
+    // In a real app, this would fetch from an API
+    try {
+      const stored = localStorage.getItem(`${activeTab}_posts`);
+      if (stored) {
+        const posts = JSON.parse(stored);
+        if (activeTab === 'blog') {
+          setBlogPosts(posts);
+        } else {
+          setNewsletters(posts);
+        }
+      }
+    } catch (error) {
+      console.error('Error loading posts:', error);
+    }
+  };
+
+  const addPublishedPost = (post: any) => {
+    try {
+      if (activeTab === 'blog') {
+        const updated = [post, ...blogPosts.filter(p => p.slug !== post.slug)];
+        setBlogPosts(updated);
+        localStorage.setItem('blog_posts', JSON.stringify(updated));
+      } else {
+        const updated = [post, ...newsletters.filter(p => p.slug !== post.slug)];
+        setNewsletters(updated);
+        localStorage.setItem('newsletter_posts', JSON.stringify(updated));
+      }
+    } catch (error) {
+      console.error('Error saving post:', error);
+    }
   };
 
   const handleNew = () => {
@@ -157,9 +193,19 @@ export function AdminDashboard({ onLogout }: { onLogout: () => void }) {
 
         if (response.ok) {
           setMessage('✓ Published successfully!');
+          
+          // Track the published post locally
+          addPublishedPost({
+            slug: formData.slug.toLowerCase().replace(/\s+/g, '-'),
+            title: formData.title,
+            excerpt: formData.excerpt || '',
+            date: formData.date || new Date().toISOString(),
+          });
+          
           setTimeout(() => {
             setEditingId(null);
             setFormData({});
+            loadBlogPosts();
           }, 1000);
         } else {
           setMessage(`✗ Error: ${data.error || 'Failed to publish'}`);
@@ -649,22 +695,41 @@ function BlogList({
   onDelete: (id: string) => void;
 }) {
   if (posts.length === 0) {
-    return <p className="text-muted text-center py-8">No posts yet. Write one to get started.</p>;
+    return (
+      <div className="text-center py-12">
+        <p className="text-muted mb-4">No posts published yet.</p>
+        <p className="text-sm text-muted">Posts you publish from this admin will appear here.</p>
+      </div>
+    );
   }
 
   return (
     <div className="space-y-3">
       {posts.map(post => (
-        <div key={post.slug} className="flex justify-between items-center p-4 rounded-lg bg-bg border border-line-2 hover:border-gold transition">
-          <div>
+        <div
+          key={post.slug}
+          className="flex flex-col sm:flex-row justify-between items-start sm:items-center p-4 rounded-lg bg-bg border border-line-2 hover:border-gold transition gap-3"
+        >
+          <div className="flex-1">
             <p className="text-cream font-medium">{post.title}</p>
             <p className="text-muted text-sm">{post.slug}</p>
+            {post.date && <p className="text-muted text-xs mt-1">{new Date(post.date).toLocaleDateString()}</p>}
           </div>
-          <div className="flex gap-2">
-            <button onClick={() => onEdit(post)} className="px-3 py-1 rounded text-sm bg-gold/20 text-gold hover:bg-gold/30 transition">
+          <div className="flex gap-2 w-full sm:w-auto">
+            <button
+              onClick={() => onEdit(post)}
+              className="flex-1 sm:flex-none px-4 py-2 rounded text-sm bg-gold/20 text-gold hover:bg-gold/30 transition font-medium"
+            >
               Edit
             </button>
-            <button onClick={() => onDelete(post.slug)} className="px-3 py-1 rounded text-sm bg-red-900/20 text-red-400 hover:bg-red-900/30 transition">
+            <button
+              onClick={() => {
+                if (confirm(`Delete "${post.title}"?`)) {
+                  onDelete(post.slug);
+                }
+              }}
+              className="flex-1 sm:flex-none px-4 py-2 rounded text-sm bg-red-900/30 text-red-400 hover:bg-red-900/50 transition font-medium border border-red-600/30"
+            >
               Delete
             </button>
           </div>
