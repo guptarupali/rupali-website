@@ -169,10 +169,21 @@ export async function POST(request: NextRequest) {
     const dir = type === 'blog' ? 'content/posts' : 'content/newsletters';
     const filePath = `${dir}/${slug}.md`;
 
+    // Ensure date is a proper ISO string
+    let dateStr = date;
+    if (!dateStr) {
+      dateStr = new Date().toISOString();
+    } else if (dateStr instanceof Date) {
+      dateStr = dateStr.toISOString();
+    } else if (typeof dateStr === 'string' && !dateStr.includes('T')) {
+      // If it's just a date, add time
+      dateStr = new Date(dateStr).toISOString();
+    }
+
     // Create front matter for markdown
     const frontMatter = `---
 title: "${title.replace(/"/g, '\\"')}"
-date: ${date || new Date().toISOString()}
+date: "${dateStr}"
 ${excerpt ? `excerpt: "${excerpt.replace(/"/g, '\\"')}"` : ''}
 ${category ? `category: "${category}"` : ''}
 ---
@@ -182,6 +193,7 @@ ${category ? `category: "${category}"` : ''}
     const fullContent = frontMatter + content;
 
     console.log(`[Blog] Publishing to ${filePath}`);
+    console.log(`[Blog] Front matter:\n${frontMatter}`);
 
     await saveFileToGitHub(filePath, fullContent, `Create ${type} post: ${title}`);
 
@@ -211,9 +223,19 @@ export async function PUT(request: NextRequest) {
     const dir = type === 'blog' ? 'content/posts' : 'content/newsletters';
     const filePath = `${dir}/${slug}.md`;
 
+    // Ensure date is a proper ISO string
+    let dateStr = date;
+    if (!dateStr) {
+      dateStr = new Date().toISOString();
+    } else if (dateStr instanceof Date) {
+      dateStr = dateStr.toISOString();
+    } else if (typeof dateStr === 'string' && !dateStr.includes('T')) {
+      dateStr = new Date(dateStr).toISOString();
+    }
+
     const frontMatter = `---
 title: "${title.replace(/"/g, '\\"')}"
-date: ${date || new Date().toISOString()}
+date: "${dateStr}"
 ${excerpt ? `excerpt: "${excerpt.replace(/"/g, '\\"')}"` : ''}
 ${category ? `category: "${category}"` : ''}
 ---
