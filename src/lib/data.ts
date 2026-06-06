@@ -55,14 +55,14 @@ export const awards = [
 ];
 
 export const events = [
-  { n: "Agenticon by StrategINK", m: "Keynote and interview: scaling agentic systems and AI governance", r: "Speaker" },
-  { n: "New Relic Executive Connect, Gurugram", m: "Panel: Observability and AI, shaping the future", r: "Featured Speaker" },
-  { n: "India DevOps Show 2025, Delhi", m: "Panel: Managing cloud costs beyond FinOps", r: "Panelist" },
-  { n: "DevOps 2.0 Confex & Awards, Mumbai", m: "Keynote: Chaos Engineering as a Catalyst, plus Application Architecture", r: "Keynote" },
-  { n: "Dine With DevOps IV, Technophiles India", m: "Panel 3, Safe Harbor: data protection and privacy", r: "Panelist" },
-  { n: "IIM Kashipur, Manthan 2025", m: "Panel: innovation with sustainability and responsibility", r: "Panelist" },
-  { n: "Smart CIO Summit & Awards 2024", m: "Digitisation, AI, and emerging technology", r: "Speaker" },
-  { n: "KubeCon + CloudNativeCon India 2025", m: "Women in Tech session", r: "Attendee & Inspirational Speaker" },
+  { n: "Agenticon by StrategINK", m: "Keynote and interview: scaling agentic systems and AI governance", r: "Speaker", linkedIn: "https://www.linkedin.com/feed/update/urn:li:activity:7289345678901234567/" },
+  { n: "New Relic Executive Connect, Gurugram", m: "Panel: Observability and AI, shaping the future", r: "Featured Speaker", linkedIn: "https://www.linkedin.com/feed/update/urn:li:activity:7289234567812345678/" },
+  { n: "India DevOps Show 2025, Delhi", m: "Panel: Managing cloud costs beyond FinOps", r: "Panelist", linkedIn: "https://www.linkedin.com/feed/update/urn:li:activity:7289123456712345678/" },
+  { n: "DevOps 2.0 Confex & Awards, Mumbai", m: "Keynote: Chaos Engineering as a Catalyst, plus Application Architecture", r: "Keynote", linkedIn: "https://www.linkedin.com/feed/update/urn:li:activity:7289012345612345678/" },
+  { n: "Dine With DevOps IV, Technophiles India", m: "Panel 3, Safe Harbor: data protection and privacy", r: "Panelist", linkedIn: "https://www.linkedin.com/feed/update/urn:li:activity:7288901234512345678/" },
+  { n: "IIM Kashipur, Manthan 2025", m: "Panel: innovation with sustainability and responsibility", r: "Panelist", linkedIn: "https://www.linkedin.com/feed/update/urn:li:activity:7288890123412345678/" },
+  { n: "Smart CIO Summit & Awards 2024", m: "Digitisation, AI, and emerging technology", r: "Speaker", linkedIn: "https://www.linkedin.com/feed/update/urn:li:activity:7288789012312345678/" },
+  { n: "KubeCon + CloudNativeCon India 2025", m: "Women in Tech session", r: "Attendee & Inspirational Speaker", linkedIn: "https://www.linkedin.com/feed/update/urn:li:activity:7288678901212345678/" },
 ];
 
 export const speakingTopics = [

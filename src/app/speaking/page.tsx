@@ -24,12 +24,24 @@ export default function Speaking() {
           <Kicker>Recent Engagements</Kicker>
           <div className="mt-5 space-y-3">
             {events.map((e) => (
-              <div key={e.n} className="flex flex-col gap-1 border-b border-line-2 pb-3">
-                <div className="flex items-center justify-between gap-3">
-                  <span className="text-cream">{e.n}</span>
-                  <span className="shrink-0 font-mono text-xs text-gold">{e.r}</span>
+              <div key={e.n} className="rounded-lg border border-line-2 bg-panel p-4 hover:border-gold transition">
+                <div className="flex items-start justify-between gap-3 mb-2">
+                  <div className="flex-1">
+                    <h4 className="text-cream font-medium text-sm">{e.n}</h4>
+                    <p className="text-xs text-muted mt-1">{e.m}</p>
+                  </div>
+                  <span className="shrink-0 font-mono text-xs text-gold bg-panel px-2 py-1 rounded border border-line-2">{e.r}</span>
                 </div>
-                <span className="text-sm text-muted">{e.m}</span>
+                {e.linkedIn && (
+                  <a 
+                    href={e.linkedIn} 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="text-xs text-gold hover:text-gold-2 transition inline-flex items-center gap-1 mt-3"
+                  >
+                    View on LinkedIn →
+                  </a>
+                )}
               </div>
             ))}
           </div>
