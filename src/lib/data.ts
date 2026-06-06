@@ -1,3 +1,5 @@
+import adminData from './admin-data.json';
+
 export const stats = [
   { v: "£50M+", l: "Portfolios led" },
   { v: "10M+", l: "Customer accounts migrated" },
@@ -43,56 +45,37 @@ export const timeline = [
     ] },
 ];
 
-export const awards = [
-  { y: "2x", h: "LinkedIn Top Voice", s: "Platform engineering and AI thought leadership" },
-  { y: "2025", h: "Top 1% Leaders Award", s: "Opstree & BuildPiper, Excellence in Leadership" },
-  { y: "2025", h: "Platform Engineering Visionary Leader", s: "Recognized for platform and AI native leadership" },
-  { y: "2025", h: "DevOps Leader of the Year", s: "DevOps 2.0 Confex & Awards, Mumbai (Gain Skills)" },
-  { y: "2025", h: "Engineering Visionary Leader of the Year", s: "Dine With DevOps, Last9 & Technophiles India" },
-  { y: "2025", h: "Digital Renaissance Leader of the Year", s: "Dine With DevOps, Last9 & Technophiles India" },
-  { y: "2025", h: "Strategic Platform Leadership Award", s: "Gain Skills Business Media" },
-  { y: "2026", h: "Women in Technology Leadership Excellence", s: "Technophiles India" },
-];
+export const awards = adminData.awards.map((a: any) => ({
+  y: a.year,
+  h: a.title,
+  s: a.subtitle,
+}));
 
-export const events = [
-  { n: "Agenticon by StrategINK", m: "Keynote and interview: scaling agentic systems and AI governance", r: "Speaker", linkedIn: "https://www.linkedin.com/feed/update/urn:li:activity:7289345678901234567/" },
-  { n: "New Relic Executive Connect, Gurugram", m: "Panel: Observability and AI, shaping the future", r: "Featured Speaker", linkedIn: "https://www.linkedin.com/feed/update/urn:li:activity:7289234567812345678/" },
-  { n: "India DevOps Show 2025, Delhi", m: "Panel: Managing cloud costs beyond FinOps", r: "Panelist", linkedIn: "https://www.linkedin.com/feed/update/urn:li:activity:7289123456712345678/" },
-  { n: "DevOps 2.0 Confex & Awards, Mumbai", m: "Keynote: Chaos Engineering as a Catalyst, plus Application Architecture", r: "Keynote", linkedIn: "https://www.linkedin.com/feed/update/urn:li:activity:7289012345612345678/" },
-  { n: "Dine With DevOps IV, Technophiles India", m: "Panel 3, Safe Harbor: data protection and privacy", r: "Panelist", linkedIn: "https://www.linkedin.com/feed/update/urn:li:activity:7288901234512345678/" },
-  { n: "IIM Kashipur, Manthan 2025", m: "Panel: innovation with sustainability and responsibility", r: "Panelist", linkedIn: "https://www.linkedin.com/feed/update/urn:li:activity:7288890123412345678/" },
-  { n: "Smart CIO Summit & Awards 2024", m: "Digitisation, AI, and emerging technology", r: "Speaker", linkedIn: "https://www.linkedin.com/feed/update/urn:li:activity:7288789012312345678/" },
-  { n: "KubeCon + CloudNativeCon India 2025", m: "Women in Tech session", r: "Attendee & Inspirational Speaker", linkedIn: "https://www.linkedin.com/feed/update/urn:li:activity:7288678901212345678/" },
-];
+export const events = adminData.events.map((e: any) => ({
+  n: e.name,
+  m: e.description,
+  r: e.role,
+  linkedIn: e.linkedinUrl,
+}));
 
-export const speakingTopics = [
-  { h: "Governing Agentic AI at Enterprise Scale", p: "Guardrails, AgentOps, observability, and the trust problem behind autonomous, multi agent systems." },
-  { h: "Platform Engineering Excellence", p: "Invisible platforms, internal developer platforms, golden paths, and platform as a product." },
-  { h: "Chaos Engineering as a Catalyst", p: "Testing assumptions and building resilient infrastructure as code." },
-  { h: "Cloud Costs Beyond FinOps", p: "Embedding cost discipline into CI/CD with policy as code and observability." },
-  { h: "Women in Leadership", p: "Raising others while you rise, and building systems that include more voices." },
-];
+export const speakingTopics = adminData.speakingTopics.map((t: any) => ({
+  h: t.title,
+  p: t.description,
+}));
 
-export const advisoryServices = [
-  { h: "Platform & Architecture Review", p: "An expert assessment of your platform strategy, internal developer platform, and cloud architecture." },
-  { h: "Agentic AI Governance", p: "Designing guardrails, AgentOps, and the operating model to run autonomous AI safely." },
-  { h: "Engineering Operating Model", p: "Platform as a product, golden paths, and developer experience that drives adoption." },
-  { h: "Executive & Board Advisory", p: "Translating AI and platform strategy into business outcomes for leadership teams." },
-];
+export const advisoryServices = adminData.advisoryServices.map((a: any) => ({
+  h: a.title,
+  p: a.description,
+}));
 
-export const media = [
-  { type: "Interview", h: "New Relic Executive Connect", p: "On observability as a first class capability and AI native engineering." },
-  { type: "Interview", h: "Silicon Valley Interview", p: "On platform engineering and AI native transformation at global scale." },
-  { type: "Interview", h: "Conversations as Code, Technophiles India", p: "A fireside on agentic AI, governance, and autonomous systems." },
-  { type: "Publication", h: "The Platform Path", p: "A newsletter on platform engineering and developer experience." },
-  { type: "Publication", h: "AI Pulse", p: "A newsletter on agentic AI, AgentOps, and governance." },
-];
+export const media = adminData.media.map((m: any) => ({
+  type: m.type,
+  h: m.title,
+  p: m.description,
+}));
 
-export const recommendations = [
-  { t: "A visionary in enterprise architecture, platform engineering, and cloud transformation, with an exceptional ability to drive large scale digital transformation.", n: "Ruchi Tandon", w: "Senior Consultant, Infosys" },
-  { t: "She does not just cope with change under pressure, she leads it, with a calm that supports and inspires teams through regulatory deadlines.", n: "Cameron Grant", w: "AWS Platform Lead, NatWest Group" },
-  { t: "When it comes to technical acumen, it has to be Rupali. She is not just an asset to a team, she is a MUST HAVE for an organisation.", n: "Kanika Gupta", w: "Strategic Product Leader" },
-  { t: "Exceptional skills in data science, consistently applying advanced techniques to solve complex business problems.", n: "Pooja Kaur", w: "App Automation Engineering Manager, Accenture" },
-  { t: "One of the strongest technical leads and architects I have worked with, equally comfortable hands on with code or at a 30,000 foot view.", n: "Sourav Nayyar", w: "Engagement Director, NTT Data" },
-  { t: "A unique ability to break down intricate problems and provide clear solutions, and an outstanding mentor.", n: "Gaurav Kumar Rai", w: "Distinguished Engineer, Fidelity International" },
-];
+export const recommendations = adminData.recommendations.map((r: any) => ({
+  t: r.text,
+  n: r.name,
+  w: r.title,
+}));
