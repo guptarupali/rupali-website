@@ -220,7 +220,7 @@ export function AdminDashboard({ onLogout }: { onLogout: () => void }) {
             setEditingId(null);
             setFormData({});
             loadBlogPosts();
-          }, 1000);
+          }, 3000);
         } else {
           setMessage(`✗ Error: ${data.error || 'Failed to publish'}`);
         }
@@ -345,8 +345,31 @@ export function AdminDashboard({ onLogout }: { onLogout: () => void }) {
         </div>
 
         {message && (
-          <div className="mb-4 p-3 rounded-lg bg-panel border border-line-2 text-cream text-sm">
-            {message}
+          <div className={`mb-4 p-4 rounded-lg border ${message.includes('Published') ? 'bg-green-900/20 border-green-600/30' : 'bg-panel border-line-2'} text-cream text-sm`}>
+            <p className="mb-2">{message}</p>
+            {message.includes('Published successfully') && activeTab === 'blog' && (
+              <div className="mt-3 pt-3 border-t border-green-600/30 text-xs text-muted space-y-2">
+                <p className="font-medium text-green-400">Next: Redeploy to show post on site</p>
+                <ol className="list-decimal list-inside space-y-1 ml-2">
+                  <li>Go to: <a href="https://vercel.com/guptarupali/rupali-website/deployments" target="_blank" rel="noopener noreferrer" className="text-gold hover:underline">Vercel Deployments</a></li>
+                  <li>Click latest deployment</li>
+                  <li>Click <span className="text-cream font-medium">"Redeploy"</span> button</li>
+                  <li>Wait 2-3 minutes</li>
+                  <li>Check: <a href="https://rupaligupta.in/blog" target="_blank" rel="noopener noreferrer" className="text-gold hover:underline">rupaligupta.in/blog</a></li>
+                </ol>
+              </div>
+            )}
+            {message.includes('Published successfully') && activeTab === 'newsletter' && (
+              <div className="mt-3 pt-3 border-t border-green-600/30 text-xs text-muted space-y-2">
+                <p className="font-medium text-green-400">Next: Redeploy to show newsletter on site</p>
+                <ol className="list-decimal list-inside space-y-1 ml-2">
+                  <li>Go to: <a href="https://vercel.com/guptarupali/rupali-website/deployments" target="_blank" rel="noopener noreferrer" className="text-gold hover:underline">Vercel Deployments</a></li>
+                  <li>Click latest deployment</li>
+                  <li>Click <span className="text-cream font-medium">"Redeploy"</span> button</li>
+                  <li>Wait 2-3 minutes for build to complete</li>
+                </ol>
+              </div>
+            )}
           </div>
         )}
 
