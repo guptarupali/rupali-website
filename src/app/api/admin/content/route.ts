@@ -158,6 +158,14 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    if (!GITHUB_TOKEN) {
+      console.error('GITHUB_TOKEN not configured');
+      return NextResponse.json(
+        { error: 'GitHub token not configured. Add GITHUB_TOKEN to Vercel environment variables.' },
+        { status: 500 }
+      );
+    }
+
     const dir = type === 'blog' ? 'content/posts' : 'content/newsletters';
     const filePath = `${dir}/${slug}.md`;
 
@@ -173,13 +181,17 @@ ${category ? `category: "${category}"` : ''}
 
     const fullContent = frontMatter + content;
 
+    console.log(`[Blog] Publishing to ${filePath}`);
+
     await saveFileToGitHub(filePath, fullContent, `Create ${type} post: ${title}`);
 
+    console.log(`[Blog] Successfully published ${filePath}`);
     return NextResponse.json({ success: true, slug });
   } catch (error) {
-    console.error('POST error:', error);
+    const errorMsg = error instanceof Error ? error.message : 'Unknown error';
+    console.error('[Blog] POST error:', errorMsg, error);
     return NextResponse.json(
-      { error: error instanceof Error ? error.message : 'Server error' },
+      { error: `Failed to publish: ${errorMsg}` },
       { status: 500 }
     );
   }

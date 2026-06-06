@@ -116,40 +116,57 @@ export function AdminDashboard({ onLogout }: { onLogout: () => void }) {
   const handleSave = async () => {
     if (activeTab === 'blog' || activeTab === 'newsletter') {
       // Blog/Newsletter save
-      if (!formData.title || !formData.slug || !formData.content) {
-        setMessage('⚠ Title, slug, and content are required');
+      if (!formData.title || !formData.title.trim()) {
+        setMessage('⚠ Title is required');
+        return;
+      }
+      if (!formData.slug || !formData.slug.trim()) {
+        setMessage('⚠ Slug (URL) is required');
+        return;
+      }
+      if (!formData.content || !formData.content.trim()) {
+        setMessage('⚠ Content is required');
         return;
       }
 
       setSaving(true);
+      setMessage('');
       try {
         const method = editingId === 'new' ? 'POST' : 'PUT';
+        
+        const payload = {
+          type: activeTab,
+          title: formData.title.trim(),
+          slug: formData.slug.trim().toLowerCase().replace(/\s+/g, '-'),
+          excerpt: formData.excerpt?.trim() || '',
+          category: formData.category?.trim() || '',
+          date: formData.date || new Date().toISOString(),
+          content: formData.content.trim(),
+        };
+
+        console.log('Publishing with payload:', payload);
+
         const response = await fetch('/api/admin/content', {
           method,
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            type: activeTab,
-            title: formData.title,
-            slug: formData.slug,
-            excerpt: formData.excerpt,
-            category: formData.category,
-            date: formData.date || new Date().toISOString(),
-            content: formData.content,
-          }),
+          body: JSON.stringify(payload),
         });
 
+        const data = await response.json();
+        console.log('Response:', response.status, data);
+
         if (response.ok) {
-          setMessage('✓ Published successfully');
-          setEditingId(null);
-          setFormData({});
-          // Reload blog/newsletter list
-          loadBlogPosts();
+          setMessage('✓ Published successfully!');
+          setTimeout(() => {
+            setEditingId(null);
+            setFormData({});
+          }, 1000);
         } else {
-          const error = await response.json();
-          setMessage(`✗ ${error.error || 'Failed to save'}`);
+          setMessage(`✗ Error: ${data.error || 'Failed to publish'}`);
         }
       } catch (error) {
-        setMessage('✗ Error saving');
+        console.error('Publish error:', error);
+        setMessage(`✗ Error: ${error instanceof Error ? error.message : 'Failed to publish'}`);
       } finally {
         setSaving(false);
       }
