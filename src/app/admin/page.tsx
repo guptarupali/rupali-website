@@ -110,13 +110,15 @@ export default function AdminPage() {
             <div>
               <label className="block text-sm text-cream mb-2">Email</label>
               <input
-                type="email"
+                type="password"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                placeholder="your@email.com"
-                className="w-full px-4 py-2 rounded-lg bg-bg border border-line-2 text-cream focus:outline-none focus:border-gold"
+                placeholder="••••••••••@••••••••"
+                className="w-full px-4 py-2 rounded-lg bg-bg border border-line-2 text-cream focus:outline-none focus:border-gold tracking-widest"
                 required
+                autoComplete="off"
               />
+              <p className="text-xs text-muted mt-2">Email masked for security. Only the authorized address works.</p>
             </div>
 
             {error && <p className="text-sm text-red-400">⚠ {error}</p>}
