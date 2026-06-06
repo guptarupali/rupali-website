@@ -1,358 +1,431 @@
 'use client';
 
-import { useState } from 'react';
-import { Container, Section } from '@/components/ui';
-import { events, awards, media } from '@/lib/data';
+import { useState, useEffect } from 'react';
+
+interface Item {
+  id: string;
+  [key: string]: any;
+}
+
+interface DashboardData {
+  awards?: Item[];
+  events?: Item[];
+  media?: Item[];
+  recommendations?: Item[];
+  advisoryServices?: Item[];
+  speakingTopics?: Item[];
+  bio?: string;
+}
 
 export function AdminDashboard({ onLogout }: { onLogout: () => void }) {
-  const [activeTab, setActiveTab] = useState<'events' | 'awards' | 'media' | 'gallery' | 'bio'>('events');
-  const [showAddForm, setShowAddForm] = useState(false);
+  const [activeTab, setActiveTab] = useState<string>('awards');
+  const [data, setData] = useState<DashboardData>({});
+  const [loading, setLoading] = useState(true);
+  const [editingId, setEditingId] = useState<string | null>(null);
+  const [formData, setFormData] = useState<any>({});
+  const [saving, setSaving] = useState(false);
+  const [message, setMessage] = useState('');
+
+  const tabs = [
+    { id: 'awards', label: 'Awards' },
+    { id: 'events', label: 'Speaking Events' },
+    { id: 'media', label: 'Media' },
+    { id: 'recommendations', label: 'Recommendations' },
+    { id: 'advisoryServices', label: 'Advisory Services' },
+    { id: 'speakingTopics', label: 'Speaking Topics' },
+    { id: 'bio', label: 'Bio' },
+  ];
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  const fetchData = async () => {
+    try {
+      const response = await fetch('/api/admin/data?entity=all');
+      const result = await response.json();
+      setData(result);
+      setLoading(false);
+    } catch (error) {
+      console.error('Error fetching data:', error);
+      setMessage('Failed to load data');
+      setLoading(false);
+    }
+  };
+
+  const handleNew = () => {
+    setEditingId('new');
+    setFormData({});
+  };
+
+  const handleEdit = (item: Item) => {
+    setEditingId(item.id);
+    setFormData({ ...item });
+  };
+
+  const handleDelete = async (id: string) => {
+    if (!confirm('Are you sure you want to delete this item?')) return;
+
+    setSaving(true);
+    try {
+      const response = await fetch('/api/admin/data', {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ entity: activeTab, id }),
+      });
+
+      if (response.ok) {
+        setMessage('✓ Deleted successfully');
+        fetchData();
+        setEditingId(null);
+      } else {
+        setMessage('✗ Failed to delete');
+      }
+    } catch (error) {
+      setMessage('✗ Error deleting');
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  const handleSave = async () => {
+    if (!validateForm()) return;
+
+    setSaving(true);
+    try {
+      const url = editingId === 'new' ? '/api/admin/data' : '/api/admin/data';
+      const method = editingId === 'new' ? 'POST' : 'PUT';
+
+      const response = await fetch(url, {
+        method,
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          entity: activeTab,
+          id: editingId === 'new' ? undefined : editingId,
+          item: formData,
+        }),
+      });
+
+      if (response.ok) {
+        setMessage('✓ Saved successfully');
+        fetchData();
+        setEditingId(null);
+        setFormData({});
+      } else {
+        setMessage('✗ Failed to save');
+      }
+    } catch (error) {
+      setMessage('✗ Error saving');
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  const validateForm = () => {
+    if (activeTab === 'bio') {
+      if (!formData.bio || formData.bio.trim().length === 0) {
+        setMessage('⚠ Bio cannot be empty');
+        return false;
+      }
+      return true;
+    }
+
+    if (activeTab === 'awards') {
+      if (!formData.year || !formData.title) {
+        setMessage('⚠ Year and Title are required');
+        return false;
+      }
+    } else if (activeTab === 'events') {
+      if (!formData.name || !formData.description) {
+        setMessage('⚠ Name and Description are required');
+        return false;
+      }
+    } else if (activeTab === 'media') {
+      if (!formData.type || !formData.title) {
+        setMessage('⚠ Type and Title are required');
+        return false;
+      }
+    } else if (activeTab === 'recommendations') {
+      if (!formData.text || !formData.name) {
+        setMessage('⚠ Text and Name are required');
+        return false;
+      }
+    } else if (activeTab === 'advisoryServices' || activeTab === 'speakingTopics') {
+      if (!formData.title || !formData.description) {
+        setMessage('⚠ Title and Description are required');
+        return false;
+      }
+    }
+
+    return true;
+  };
+
+  if (loading) {
+    return <div className="text-cream p-8">Loading...</div>;
+  }
+
+  const currentData = data[activeTab as keyof DashboardData] || [];
+  const isEditing = editingId !== null;
 
   return (
-    <>
-      {/* Header */}
-      <div className="sticky top-0 z-40 border-b border-line-2 bg-bg/85 backdrop-blur">
-        <Container className="py-4 flex items-center justify-between">
-          <h1 className="text-xl text-cream">Admin Dashboard</h1>
+    <div className="min-h-screen bg-bg p-8">
+      <div className="max-w-6xl mx-auto">
+        <div className="flex justify-between items-center mb-8">
+          <h1 className="text-4xl text-cream">Admin Dashboard</h1>
           <button
             onClick={onLogout}
-            className="px-4 py-2 rounded-lg bg-panel border border-line-2 text-sm text-cream hover:border-gold transition"
+            className="px-4 py-2 rounded-lg bg-red-900/30 border border-red-600 text-red-300 hover:bg-red-900/50 transition"
           >
             Logout
           </button>
-        </Container>
-      </div>
+        </div>
 
-      <Section>
-        <Container>
-          {/* Tabs */}
-          <div className="flex flex-wrap gap-2 mb-8 border-b border-line-2 pb-4">
-            {(['events', 'awards', 'media', 'gallery', 'bio'] as const).map((tab) => (
-              <button
-                key={tab}
-                onClick={() => {
-                  setActiveTab(tab);
-                  setShowAddForm(false);
-                }}
-                className={`px-4 py-2 rounded-lg transition capitalize ${
-                  activeTab === tab
-                    ? 'bg-gold text-bg font-medium'
-                    : 'bg-panel border border-line-2 text-cream hover:border-gold'
-                }`}
-              >
-                {tab}
-              </button>
-            ))}
+        <div className="flex flex-wrap gap-2 mb-8 border-b border-line-2 pb-4">
+          {tabs.map(tab => (
+            <button
+              key={tab.id}
+              onClick={() => {
+                setActiveTab(tab.id);
+                setEditingId(null);
+                setFormData({});
+              }}
+              className={`px-4 py-2 rounded-t-lg transition ${
+                activeTab === tab.id
+                  ? 'bg-gold text-bg font-medium'
+                  : 'text-cream hover:bg-panel'
+              }`}
+            >
+              {tab.label}
+            </button>
+          ))}
+        </div>
+
+        {message && (
+          <div className="mb-4 p-3 rounded-lg bg-panel border border-line-2 text-cream text-sm">
+            {message}
           </div>
+        )}
 
-          {/* Events Tab */}
-          {activeTab === 'events' && <EventsSection events={events} />}
+        <div className="bg-panel border border-line-2 rounded-xl p-6">
+          {activeTab === 'bio' ? (
+            <BioEditor
+              data={formData}
+              setData={setFormData}
+              isEditing={isEditing}
+              onEdit={() => setEditingId('edit')}
+              onSave={handleSave}
+              onCancel={() => setEditingId(null)}
+              saving={saving}
+            />
+          ) : (
+            <>
+              {!isEditing && (
+                <button
+                  onClick={handleNew}
+                  className="mb-6 px-4 py-2 rounded-lg bg-gold text-bg font-medium hover:bg-gold-2 transition"
+                >
+                  + Add New {tabs.find(t => t.id === activeTab)?.label.slice(0, -1)}
+                </button>
+              )}
 
-          {/* Awards Tab */}
-          {activeTab === 'awards' && <AwardsSection awards={awards} />}
-
-          {/* Media Tab */}
-          {activeTab === 'media' && <MediaSection media={media} />}
-
-          {/* Gallery Tab */}
-          {activeTab === 'gallery' && <GallerySection />}
-
-          {/* Bio Tab */}
-          {activeTab === 'bio' && <BioSection />}
-        </Container>
-      </Section>
-    </>
+              {isEditing ? (
+                <ItemForm
+                  tabId={activeTab}
+                  item={formData}
+                  setItem={setFormData}
+                  onSave={handleSave}
+                  onCancel={() => setEditingId(null)}
+                  saving={saving}
+                />
+              ) : (
+                <ItemList
+                  tabId={activeTab}
+                  items={currentData as Item[]}
+                  onEdit={handleEdit}
+                  onDelete={handleDelete}
+                />
+              )}
+            </>
+          )}
+        </div>
+      </div>
+    </div>
   );
 }
 
-/* Events Section */
-function EventsSection({ events }: { events: any[] }) {
-  const [newEvent, setNewEvent] = useState({ n: '', m: '', r: '', linkedIn: '' });
-
-  const handleAddEvent = () => {
-    if (newEvent.n && newEvent.m && newEvent.r) {
-      const code = `{ n: "${newEvent.n}", m: "${newEvent.m}", r: "${newEvent.r}", linkedIn: "${newEvent.linkedIn}" }`;
-      alert(`Add this to src/lib/data.ts events array:\n\n${code}`);
-      setNewEvent({ n: '', m: '', r: '', linkedIn: '' });
+function ItemForm({
+  tabId,
+  item,
+  setItem,
+  onSave,
+  onCancel,
+  saving,
+}: {
+  tabId: string;
+  item: any;
+  setItem: (item: any) => void;
+  onSave: () => void;
+  onCancel: () => void;
+  saving: boolean;
+}) {
+  const renderFields = () => {
+    switch (tabId) {
+      case 'awards':
+        return (
+          <>
+            <input placeholder="Year (e.g., 2025)" value={item.year || ''} onChange={e => setItem({ ...item, year: e.target.value })} className="w-full px-4 py-2 rounded-lg bg-bg border border-line-2 text-cream mb-4 focus:outline-none focus:border-gold" />
+            <input placeholder="Award Title" value={item.title || ''} onChange={e => setItem({ ...item, title: e.target.value })} className="w-full px-4 py-2 rounded-lg bg-bg border border-line-2 text-cream mb-4 focus:outline-none focus:border-gold" />
+            <textarea placeholder="Subtitle/Details" value={item.subtitle || ''} onChange={e => setItem({ ...item, subtitle: e.target.value })} className="w-full px-4 py-2 rounded-lg bg-bg border border-line-2 text-cream mb-4 focus:outline-none focus:border-gold h-24" />
+          </>
+        );
+      case 'events':
+        return (
+          <>
+            <input placeholder="Event Name" value={item.name || ''} onChange={e => setItem({ ...item, name: e.target.value })} className="w-full px-4 py-2 rounded-lg bg-bg border border-line-2 text-cream mb-4 focus:outline-none focus:border-gold" />
+            <textarea placeholder="Description" value={item.description || ''} onChange={e => setItem({ ...item, description: e.target.value })} className="w-full px-4 py-2 rounded-lg bg-bg border border-line-2 text-cream mb-4 focus:outline-none focus:border-gold h-24" />
+            <input placeholder="Role (Speaker, Panelist, etc)" value={item.role || ''} onChange={e => setItem({ ...item, role: e.target.value })} className="w-full px-4 py-2 rounded-lg bg-bg border border-line-2 text-cream mb-4 focus:outline-none focus:border-gold" />
+            <input placeholder="LinkedIn URL" value={item.linkedinUrl || ''} onChange={e => setItem({ ...item, linkedinUrl: e.target.value })} className="w-full px-4 py-2 rounded-lg bg-bg border border-line-2 text-cream mb-4 focus:outline-none focus:border-gold" />
+          </>
+        );
+      case 'media':
+        return (
+          <>
+            <select value={item.type || ''} onChange={e => setItem({ ...item, type: e.target.value })} className="w-full px-4 py-2 rounded-lg bg-bg border border-line-2 text-cream mb-4 focus:outline-none focus:border-gold">
+              <option value="">Select Type</option>
+              <option value="Interview">Interview</option>
+              <option value="Publication">Publication</option>
+              <option value="Article">Article</option>
+            </select>
+            <input placeholder="Title" value={item.title || ''} onChange={e => setItem({ ...item, title: e.target.value })} className="w-full px-4 py-2 rounded-lg bg-bg border border-line-2 text-cream mb-4 focus:outline-none focus:border-gold" />
+            <textarea placeholder="Description" value={item.description || ''} onChange={e => setItem({ ...item, description: e.target.value })} className="w-full px-4 py-2 rounded-lg bg-bg border border-line-2 text-cream mb-4 focus:outline-none focus:border-gold h-24" />
+          </>
+        );
+      case 'recommendations':
+        return (
+          <>
+            <textarea placeholder="Recommendation Text" value={item.text || ''} onChange={e => setItem({ ...item, text: e.target.value })} className="w-full px-4 py-2 rounded-lg bg-bg border border-line-2 text-cream mb-4 focus:outline-none focus:border-gold h-32" />
+            <input placeholder="Person Name" value={item.name || ''} onChange={e => setItem({ ...item, name: e.target.value })} className="w-full px-4 py-2 rounded-lg bg-bg border border-line-2 text-cream mb-4 focus:outline-none focus:border-gold" />
+            <input placeholder="Title/Organization" value={item.title || ''} onChange={e => setItem({ ...item, title: e.target.value })} className="w-full px-4 py-2 rounded-lg bg-bg border border-line-2 text-cream mb-4 focus:outline-none focus:border-gold" />
+          </>
+        );
+      case 'advisoryServices':
+      case 'speakingTopics':
+        return (
+          <>
+            <input placeholder="Title" value={item.title || ''} onChange={e => setItem({ ...item, title: e.target.value })} className="w-full px-4 py-2 rounded-lg bg-bg border border-line-2 text-cream mb-4 focus:outline-none focus:border-gold" />
+            <textarea placeholder="Description" value={item.description || ''} onChange={e => setItem({ ...item, description: e.target.value })} className="w-full px-4 py-2 rounded-lg bg-bg border border-line-2 text-cream mb-4 focus:outline-none focus:border-gold h-24" />
+          </>
+        );
+      default:
+        return null;
     }
   };
 
   return (
-    <div className="space-y-6">
-      <div>
-        <h2 className="text-xl text-cream mb-4">Speaking Engagements</h2>
-        <div className="space-y-3">
-          {events.map((e, i) => (
-            <div key={i} className="p-4 rounded-lg bg-panel border border-line-2">
-              <h3 className="text-cream font-medium">{e.n}</h3>
-              <p className="text-sm text-muted mt-1">{e.m}</p>
-              <div className="flex gap-3 mt-3">
-                <span className="text-xs bg-bg px-2 py-1 rounded text-gold">{e.r}</span>
-                {e.linkedIn && (
-                  <a href={e.linkedIn} target="_blank" rel="noopener" className="text-xs text-gold hover:text-gold-2">
-                    LinkedIn Link
-                  </a>
-                )}
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      <div className="border-t border-line-2 pt-6">
-        <h3 className="text-lg text-cream mb-4">Add New Event</h3>
-        <div className="space-y-3 max-w-2xl">
-          <input
-            type="text"
-            placeholder="Event name"
-            value={newEvent.n}
-            onChange={(e) => setNewEvent({ ...newEvent, n: e.target.value })}
-            className="w-full px-3 py-2 rounded bg-bg border border-line-2 text-cream text-sm focus:outline-none focus:border-gold"
-          />
-          <input
-            type="text"
-            placeholder="Description"
-            value={newEvent.m}
-            onChange={(e) => setNewEvent({ ...newEvent, m: e.target.value })}
-            className="w-full px-3 py-2 rounded bg-bg border border-line-2 text-cream text-sm focus:outline-none focus:border-gold"
-          />
-          <input
-            type="text"
-            placeholder="Role (Speaker, Panelist, etc.)"
-            value={newEvent.r}
-            onChange={(e) => setNewEvent({ ...newEvent, r: e.target.value })}
-            className="w-full px-3 py-2 rounded bg-bg border border-line-2 text-cream text-sm focus:outline-none focus:border-gold"
-          />
-          <input
-            type="url"
-            placeholder="LinkedIn post URL (optional)"
-            value={newEvent.linkedIn}
-            onChange={(e) => setNewEvent({ ...newEvent, linkedIn: e.target.value })}
-            className="w-full px-3 py-2 rounded bg-bg border border-line-2 text-cream text-sm focus:outline-none focus:border-gold"
-          />
-          <button
-            onClick={handleAddEvent}
-            className="w-full px-4 py-2 rounded bg-gold text-bg font-medium hover:bg-gold-2 transition"
-          >
-            Generate Code & Copy
-          </button>
-        </div>
+    <div className="space-y-4">
+      {renderFields()}
+      <div className="flex gap-4">
+        <button onClick={onSave} disabled={saving} className="flex-1 px-4 py-2 rounded-lg bg-gold text-bg font-medium hover:bg-gold-2 transition disabled:opacity-50">
+          {saving ? 'Saving...' : 'Save'}
+        </button>
+        <button onClick={onCancel} className="flex-1 px-4 py-2 rounded-lg border border-line-2 text-cream hover:border-gold transition">
+          Cancel
+        </button>
       </div>
     </div>
   );
 }
 
-/* Awards Section */
-function AwardsSection({ awards }: { awards: any[] }) {
-  const [newAward, setNewAward] = useState({ y: '', h: '', s: '' });
-
-  const handleAddAward = () => {
-    if (newAward.y && newAward.h && newAward.s) {
-      const code = `{ y: "${newAward.y}", h: "${newAward.h}", s: "${newAward.s}" }`;
-      alert(`Add this to src/lib/data.ts awards array:\n\n${code}`);
-      setNewAward({ y: '', h: '', s: '' });
+function ItemList({
+  tabId,
+  items,
+  onEdit,
+  onDelete,
+}: {
+  tabId: string;
+  items: Item[];
+  onEdit: (item: Item) => void;
+  onDelete: (id: string) => void;
+}) {
+  const getItemDisplay = (item: Item) => {
+    switch (tabId) {
+      case 'awards':
+        return `${item.year} - ${item.title}`;
+      case 'events':
+        return `${item.name} (${item.role})`;
+      case 'media':
+        return `[${item.type}] ${item.title}`;
+      case 'recommendations':
+        return `${item.name} - ${item.title}`;
+      case 'advisoryServices':
+      case 'speakingTopics':
+        return item.title;
+      default:
+        return 'Item';
     }
   };
 
-  return (
-    <div className="space-y-6">
-      <div>
-        <h2 className="text-xl text-cream mb-4">Awards & Recognition</h2>
-        <div className="grid gap-3 md:grid-cols-2">
-          {awards.map((a, i) => (
-            <div key={i} className="p-4 rounded-lg bg-panel border border-line-2">
-              <p className="text-xs text-gold font-mono">{a.y}</p>
-              <h3 className="text-cream font-medium mt-1">{a.h}</h3>
-              <p className="text-xs text-muted mt-2">{a.s}</p>
-            </div>
-          ))}
-        </div>
-      </div>
+  if (items.length === 0) {
+    return <p className="text-muted text-center py-8">No items yet. Create one to get started.</p>;
+  }
 
-      <div className="border-t border-line-2 pt-6">
-        <h3 className="text-lg text-cream mb-4">Add New Award</h3>
-        <div className="space-y-3 max-w-2xl">
-          <input
-            type="text"
-            placeholder="Year or number (e.g., 2025, 2x, Top 1%)"
-            value={newAward.y}
-            onChange={(e) => setNewAward({ ...newAward, y: e.target.value })}
-            className="w-full px-3 py-2 rounded bg-bg border border-line-2 text-cream text-sm focus:outline-none focus:border-gold"
-          />
-          <input
-            type="text"
-            placeholder="Award title"
-            value={newAward.h}
-            onChange={(e) => setNewAward({ ...newAward, h: e.target.value })}
-            className="w-full px-3 py-2 rounded bg-bg border border-line-2 text-cream text-sm focus:outline-none focus:border-gold"
-          />
-          <input
-            type="text"
-            placeholder="Issuing organization and details"
-            value={newAward.s}
-            onChange={(e) => setNewAward({ ...newAward, s: e.target.value })}
-            className="w-full px-3 py-2 rounded bg-bg border border-line-2 text-cream text-sm focus:outline-none focus:border-gold"
-          />
-          <button
-            onClick={handleAddAward}
-            className="w-full px-4 py-2 rounded bg-gold text-bg font-medium hover:bg-gold-2 transition"
-          >
-            Generate Code & Copy
-          </button>
+  return (
+    <div className="space-y-3">
+      {items.map(item => (
+        <div key={item.id} className="flex justify-between items-center p-4 rounded-lg bg-bg border border-line-2 hover:border-gold transition">
+          <span className="text-cream">{getItemDisplay(item)}</span>
+          <div className="flex gap-2">
+            <button onClick={() => onEdit(item)} className="px-3 py-1 rounded text-sm bg-gold/20 text-gold hover:bg-gold/30 transition">
+              Edit
+            </button>
+            <button onClick={() => onDelete(item.id)} className="px-3 py-1 rounded text-sm bg-red-900/20 text-red-400 hover:bg-red-900/30 transition">
+              Delete
+            </button>
+          </div>
         </div>
-      </div>
+      ))}
     </div>
   );
 }
 
-/* Media Section */
-function MediaSection({ media }: { media: any[] }) {
-  const [newMedia, setNewMedia] = useState({ type: '', h: '', p: '' });
-
-  const handleAddMedia = () => {
-    if (newMedia.type && newMedia.h && newMedia.p) {
-      const code = `{ type: "${newMedia.type}", h: "${newMedia.h}", p: "${newMedia.p}" }`;
-      alert(`Add this to src/lib/data.ts media array:\n\n${code}`);
-      setNewMedia({ type: '', h: '', p: '' });
-    }
-  };
+function BioEditor({
+  data,
+  setData,
+  isEditing,
+  onEdit,
+  onSave,
+  onCancel,
+  saving,
+}: {
+  data: any;
+  setData: (data: any) => void;
+  isEditing: boolean;
+  onEdit: () => void;
+  onSave: () => void;
+  onCancel: () => void;
+  saving: boolean;
+}) {
+  if (!isEditing) {
+    return (
+      <div className="space-y-4">
+        <p className="text-cream leading-relaxed">{data.bio || 'No bio set'}</p>
+        <button onClick={onEdit} className="px-4 py-2 rounded-lg bg-gold text-bg font-medium hover:bg-gold-2 transition">
+          Edit Bio
+        </button>
+      </div>
+    );
+  }
 
   return (
-    <div className="space-y-6">
-      <div>
-        <h2 className="text-xl text-cream mb-4">Media Coverage</h2>
-        <div className="space-y-3">
-          {media.map((m, i) => (
-            <div key={i} className="p-4 rounded-lg bg-panel border border-line-2">
-              <span className="text-xs text-gold font-mono">{m.type}</span>
-              <h3 className="text-cream font-medium mt-1">{m.h}</h3>
-              <p className="text-sm text-muted mt-2">{m.p}</p>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      <div className="border-t border-line-2 pt-6">
-        <h3 className="text-lg text-cream mb-4">Add New Media</h3>
-        <div className="space-y-3 max-w-2xl">
-          <select
-            value={newMedia.type}
-            onChange={(e) => setNewMedia({ ...newMedia, type: e.target.value })}
-            className="w-full px-3 py-2 rounded bg-bg border border-line-2 text-cream text-sm focus:outline-none focus:border-gold"
-          >
-            <option value="">Select type...</option>
-            <option value="Interview">Interview</option>
-            <option value="Publication">Publication</option>
-            <option value="Article">Article</option>
-            <option value="Feature">Feature</option>
-          </select>
-          <input
-            type="text"
-            placeholder="Title"
-            value={newMedia.h}
-            onChange={(e) => setNewMedia({ ...newMedia, h: e.target.value })}
-            className="w-full px-3 py-2 rounded bg-bg border border-line-2 text-cream text-sm focus:outline-none focus:border-gold"
-          />
-          <input
-            type="text"
-            placeholder="Description"
-            value={newMedia.p}
-            onChange={(e) => setNewMedia({ ...newMedia, p: e.target.value })}
-            className="w-full px-3 py-2 rounded bg-bg border border-line-2 text-cream text-sm focus:outline-none focus:border-gold"
-          />
-          <button
-            onClick={handleAddMedia}
-            className="w-full px-4 py-2 rounded bg-gold text-bg font-medium hover:bg-gold-2 transition"
-          >
-            Generate Code & Copy
-          </button>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-/* Gallery Section */
-function GallerySection() {
-  return (
-    <div className="space-y-6">
-      <div className="p-6 rounded-lg bg-panel border border-line-2">
-        <h2 className="text-xl text-cream mb-4">Add Gallery Images</h2>
-        <div className="space-y-4">
-          <div>
-            <p className="text-sm text-muted mb-3">
-              To add new photos to your gallery:
-            </p>
-            <ol className="text-sm text-muted space-y-2 ml-4 list-decimal">
-              <li>Upload image(s) to GitHub folder: <code className="bg-bg px-2 py-1 rounded text-gold text-xs">public/images/</code></li>
-              <li>The gallery will auto-update (no code changes needed)</li>
-              <li>Images are displayed in reverse date order</li>
-            </ol>
-          </div>
-          
-          <div className="mt-4 p-4 rounded bg-bg border border-line-2">
-            <p className="text-xs text-gold mb-2">Current Gallery Images: 31</p>
-            <p className="text-xs text-muted">Visit <a href="/gallery" className="text-gold hover:text-gold-2">/gallery</a> to see all images</p>
-          </div>
-
-          <div className="mt-6 p-4 rounded bg-bg border border-gold/30">
-            <p className="text-sm text-cream font-medium mb-2">Quick Steps:</p>
-            <ol className="text-xs text-muted space-y-1 ml-4 list-decimal">
-              <li>Go to GitHub repo: <code className="text-gold">guptarupali/rupali-website</code></li>
-              <li>Navigate to <code className="text-gold">public/images/</code> folder</li>
-              <li>Click "Upload files" and select your photos</li>
-              <li>Vercel auto-deploys (60 seconds)</li>
-            </ol>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-/* Bio Section */
-function BioSection() {
-  return (
-    <div className="space-y-6">
-      <div className="p-6 rounded-lg bg-panel border border-line-2">
-        <h2 className="text-xl text-cream mb-4">Update Bio & Stats</h2>
-        <div className="space-y-4">
-          <div>
-            <p className="text-sm text-muted mb-3">To update your home page or bio:</p>
-            <ol className="text-sm text-muted space-y-2 ml-4 list-decimal">
-              <li><strong>Homepage hero text:</strong> Edit <code className="bg-bg px-2 py-1 rounded text-gold text-xs">src/app/page.tsx</code></li>
-              <li><strong>Professional stats:</strong> Edit <code className="bg-bg px-2 py-1 rounded text-gold text-xs">src/lib/data.ts</code> (stats array)</li>
-              <li><strong>Media kit bio:</strong> Edit <code className="bg-bg px-2 py-1 rounded text-gold text-xs">src/app/media/page.tsx</code></li>
-              <li><strong>Timeline/experience:</strong> Edit <code className="bg-bg px-2 py-1 rounded text-gold text-xs">src/lib/data.ts</code> (timeline array)</li>
-            </ol>
-          </div>
-
-          <div className="mt-6 p-4 rounded bg-bg border border-gold/30">
-            <p className="text-sm text-cream font-medium mb-3">Current Home Page Stats:</p>
-            <div className="grid grid-cols-2 gap-3 text-xs">
-              <div className="p-2 rounded bg-panel border border-line-2">
-                <p className="text-gold">£50M+</p>
-                <p className="text-muted">Portfolios led</p>
-              </div>
-              <div className="p-2 rounded bg-panel border border-line-2">
-                <p className="text-gold">300+</p>
-                <p className="text-muted">Engineers led</p>
-              </div>
-              <div className="p-2 rounded bg-panel border border-line-2">
-                <p className="text-gold">~60%</p>
-                <p className="text-muted">Cloud cost reduction</p>
-              </div>
-              <div className="p-2 rounded bg-panel border border-line-2">
-                <p className="text-gold">$15M+</p>
-                <p className="text-muted">Annual savings</p>
-              </div>
-            </div>
-          </div>
-
-          <div className="mt-6 p-4 rounded border border-line-2 bg-bg">
-            <p className="text-xs text-muted">For bio updates or to modify stats/timeline, DM me the details and I'll update them in seconds.</p>
-          </div>
-        </div>
+    <div className="space-y-4">
+      <textarea value={data.bio || ''} onChange={e => setData({ ...data, bio: e.target.value })} className="w-full px-4 py-2 rounded-lg bg-bg border border-line-2 text-cream focus:outline-none focus:border-gold h-48" placeholder="Enter your bio" />
+      <div className="flex gap-4">
+        <button onClick={onSave} disabled={saving} className="flex-1 px-4 py-2 rounded-lg bg-gold text-bg font-medium hover:bg-gold-2 transition disabled:opacity-50">
+          {saving ? 'Saving...' : 'Save'}
+        </button>
+        <button onClick={onCancel} className="flex-1 px-4 py-2 rounded-lg border border-line-2 text-cream hover:border-gold transition">
+          Cancel
+        </button>
       </div>
     </div>
   );

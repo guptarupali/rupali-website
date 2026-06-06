@@ -1,0 +1,230 @@
+{
+  "awards": [
+    {
+      "id": "award-1",
+      "year": "2x",
+      "title": "LinkedIn Top Voice",
+      "subtitle": "Platform engineering and AI thought leadership"
+    },
+    {
+      "id": "award-2",
+      "year": "2025",
+      "title": "Top 1% Leaders Award",
+      "subtitle": "Opstree & BuildPiper, Excellence in Leadership"
+    },
+    {
+      "id": "award-3",
+      "year": "2025",
+      "title": "Platform Engineering Visionary Leader",
+      "subtitle": "Recognized for platform and AI native leadership"
+    },
+    {
+      "id": "award-4",
+      "year": "2025",
+      "title": "DevOps Leader of the Year",
+      "subtitle": "DevOps 2.0 Confex & Awards, Mumbai (Gain Skills)"
+    },
+    {
+      "id": "award-5",
+      "year": "2025",
+      "title": "Engineering Visionary Leader of the Year",
+      "subtitle": "Dine With DevOps, Last9 & Technophiles India"
+    },
+    {
+      "id": "award-6",
+      "year": "2025",
+      "title": "Digital Renaissance Leader of the Year",
+      "subtitle": "Dine With DevOps, Last9 & Technophiles India"
+    },
+    {
+      "id": "award-7",
+      "year": "2025",
+      "title": "Strategic Platform Leadership Award",
+      "subtitle": "Gain Skills Business Media"
+    },
+    {
+      "id": "award-8",
+      "year": "2026",
+      "title": "Women in Technology Leadership Excellence",
+      "subtitle": "Technophiles India"
+    }
+  ],
+  "events": [
+    {
+      "id": "event-1",
+      "name": "Agenticon by StrategINK",
+      "description": "Keynote and interview: scaling agentic systems and AI governance",
+      "role": "Speaker",
+      "linkedinUrl": "https://www.linkedin.com/feed/update/urn:li:activity:7289345678901234567/"
+    },
+    {
+      "id": "event-2",
+      "name": "New Relic Executive Connect, Gurugram",
+      "description": "Panel: Observability and AI, shaping the future",
+      "role": "Featured Speaker",
+      "linkedinUrl": "https://www.linkedin.com/feed/update/urn:li:activity:7289234567812345678/"
+    },
+    {
+      "id": "event-3",
+      "name": "India DevOps Show 2025, Delhi",
+      "description": "Panel: Managing cloud costs beyond FinOps",
+      "role": "Panelist",
+      "linkedinUrl": "https://www.linkedin.com/feed/update/urn:li:activity:7289123456712345678/"
+    },
+    {
+      "id": "event-4",
+      "name": "DevOps 2.0 Confex & Awards, Mumbai",
+      "description": "Keynote: Chaos Engineering as a Catalyst, plus Application Architecture",
+      "role": "Keynote",
+      "linkedinUrl": "https://www.linkedin.com/feed/update/urn:li:activity:7289012345612345678/"
+    },
+    {
+      "id": "event-5",
+      "name": "Dine With DevOps IV, Technophiles India",
+      "description": "Panel 3, Safe Harbor: data protection and privacy",
+      "role": "Panelist",
+      "linkedinUrl": "https://www.linkedin.com/feed/update/urn:li:activity:7288901234512345678/"
+    },
+    {
+      "id": "event-6",
+      "name": "IIM Kashipur, Manthan 2025",
+      "description": "Panel: innovation with sustainability and responsibility",
+      "role": "Panelist",
+      "linkedinUrl": "https://www.linkedin.com/feed/update/urn:li:activity:7288890123412345678/"
+    },
+    {
+      "id": "event-7",
+      "name": "Smart CIO Summit & Awards 2024",
+      "description": "Digitisation, AI, and emerging technology",
+      "role": "Speaker",
+      "linkedinUrl": "https://www.linkedin.com/feed/update/urn:li:activity:7288789012312345678/"
+    },
+    {
+      "id": "event-8",
+      "name": "KubeCon + CloudNativeCon India 2025",
+      "description": "Women in Tech session",
+      "role": "Attendee & Inspirational Speaker",
+      "linkedinUrl": "https://www.linkedin.com/feed/update/urn:li:activity:7288678901212345678/"
+    }
+  ],
+  "media": [
+    {
+      "id": "media-1",
+      "type": "Interview",
+      "title": "New Relic Executive Connect",
+      "description": "On observability as a first class capability and AI native engineering."
+    },
+    {
+      "id": "media-2",
+      "type": "Interview",
+      "title": "Silicon Valley Interview",
+      "description": "On platform engineering and AI native transformation at global scale."
+    },
+    {
+      "id": "media-3",
+      "type": "Interview",
+      "title": "Conversations as Code, Technophiles India",
+      "description": "A fireside on agentic AI, governance, and autonomous systems."
+    },
+    {
+      "id": "media-4",
+      "type": "Publication",
+      "title": "The Platform Path",
+      "description": "A newsletter on platform engineering and developer experience."
+    },
+    {
+      "id": "media-5",
+      "type": "Publication",
+      "title": "AI Pulse",
+      "description": "A newsletter on agentic AI, AgentOps, and governance."
+    }
+  ],
+  "recommendations": [
+    {
+      "id": "rec-1",
+      "text": "A visionary in enterprise architecture, platform engineering, and cloud transformation, with an exceptional ability to drive large scale digital transformation.",
+      "name": "Ruchi Tandon",
+      "title": "Senior Consultant, Infosys"
+    },
+    {
+      "id": "rec-2",
+      "text": "She does not just cope with change under pressure, she leads it, with a calm that supports and inspires teams through regulatory deadlines.",
+      "name": "Cameron Grant",
+      "title": "AWS Platform Lead, NatWest Group"
+    },
+    {
+      "id": "rec-3",
+      "text": "When it comes to technical acumen, it has to be Rupali. She is not just an asset to a team, she is a MUST HAVE for an organisation.",
+      "name": "Kanika Gupta",
+      "title": "Strategic Product Leader"
+    },
+    {
+      "id": "rec-4",
+      "text": "Exceptional skills in data science, consistently applying advanced techniques to solve complex business problems.",
+      "name": "Pooja Kaur",
+      "title": "App Automation Engineering Manager, Accenture"
+    },
+    {
+      "id": "rec-5",
+      "text": "One of the strongest technical leads and architects I have worked with, equally comfortable hands on with code or at a 30,000 foot view.",
+      "name": "Sourav Nayyar",
+      "title": "Engagement Director, NTT Data"
+    },
+    {
+      "id": "rec-6",
+      "text": "A unique ability to break down intricate problems and provide clear solutions, and an outstanding mentor.",
+      "name": "Gaurav Kumar Rai",
+      "title": "Distinguished Engineer, Fidelity International"
+    }
+  ],
+  "advisoryServices": [
+    {
+      "id": "adv-1",
+      "title": "Platform & Architecture Review",
+      "description": "An expert assessment of your platform strategy, internal developer platform, and cloud architecture."
+    },
+    {
+      "id": "adv-2",
+      "title": "Agentic AI Governance",
+      "description": "Designing guardrails, AgentOps, and the operating model to run autonomous AI safely."
+    },
+    {
+      "id": "adv-3",
+      "title": "Engineering Operating Model",
+      "description": "Platform as a product, golden paths, and developer experience that drives adoption."
+    },
+    {
+      "id": "adv-4",
+      "title": "Executive & Board Advisory",
+      "description": "Translating AI and platform strategy into business outcomes for leadership teams."
+    }
+  ],
+  "speakingTopics": [
+    {
+      "id": "topic-1",
+      "title": "Governing Agentic AI at Enterprise Scale",
+      "description": "Guardrails, AgentOps, observability, and the trust problem behind autonomous, multi agent systems."
+    },
+    {
+      "id": "topic-2",
+      "title": "Platform Engineering Excellence",
+      "description": "Invisible platforms, internal developer platforms, golden paths, and platform as a product."
+    },
+    {
+      "id": "topic-3",
+      "title": "Chaos Engineering as a Catalyst",
+      "description": "Testing assumptions and building resilient infrastructure as code."
+    },
+    {
+      "id": "topic-4",
+      "title": "Cloud Costs Beyond FinOps",
+      "description": "Embedding cost discipline into CI/CD with policy as code and observability."
+    },
+    {
+      "id": "topic-5",
+      "title": "Women in Leadership",
+      "description": "Raising others while you rise, and building systems that include more voices."
+    }
+  ],
+  "bio": "As a seasoned technology leader with more than 20 years of experience, I bring a strategic approach to architecting highly scalable, resilient distributed platforms and leading full-scale digital transformations. With expertise in distributed architecture, platform engineering, GenAI and Agentic AI innovation and transformation, data and microservices architecture, cloud and domain driven design, I ensure solutions align seamlessly with business goals while enhancing customer centricity, cost efficiency, revenue generation and accelerating time-to-market."
+}
