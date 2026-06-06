@@ -15,6 +15,7 @@ export const site = {
     { label: "Advisory", href: "/advisory" },
     { label: "Media", href: "/media" },
     { label: "Awards", href: "/awards" },
+    { label: "Gallery", href: "/gallery" },
     { label: "Press Kit", href: "/press-kit" },
   ],
   newsletters: {
