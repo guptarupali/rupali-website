@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { Container, Section, SectionHead, Btn, Kicker } from "@/components/ui";
 import { PostCard } from "@/components/PostCard";
 import { stats, awards } from "@/lib/data";
@@ -27,14 +28,28 @@ export default async function Home() {
               <Btn href="/blog" variant="ghost">Read the writing</Btn>
             </div>
           </div>
-          <div className="rounded-2xl border border-line bg-panel p-10">
-            <div className="grid grid-cols-2 gap-x-6 gap-y-8">
-              {stats.map((s) => (
-                <div key={s.l}>
-                  <div className="font-display text-3xl text-gold-2">{s.v}</div>
-                  <div className="mt-1 text-xs text-muted">{s.l}</div>
-                </div>
-              ))}
+          <div className="flex flex-col gap-8">
+            {/* Professional Headshot */}
+            <div className="rounded-2xl border border-line overflow-hidden bg-panel">
+              <Image
+                src="/images/rupali-headshot.jpeg"
+                alt="Rupali Gupta"
+                width={500}
+                height={600}
+                className="w-full h-auto"
+                priority
+              />
+            </div>
+            {/* Key Stats */}
+            <div className="rounded-2xl border border-line-2 bg-panel p-6">
+              <div className="grid grid-cols-2 gap-x-4 gap-y-6">
+                {stats.map((s) => (
+                  <div key={s.l}>
+                    <div className="font-display text-2xl text-gold-2">{s.v}</div>
+                    <div className="mt-1 text-xs text-muted">{s.l}</div>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         </div>
