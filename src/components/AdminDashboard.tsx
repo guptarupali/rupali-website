@@ -122,10 +122,23 @@ export function AdminDashboard({ onLogout }: { onLogout: () => void }) {
 
         if (response.ok) {
           setMessage('✓ Deleted successfully');
-          loadBlogPosts();
+          
+          // Remove from localStorage
+          if (activeTab === 'blog') {
+            const updated = blogPosts.filter(p => p.slug !== id);
+            setBlogPosts(updated);
+            localStorage.setItem('blog_posts', JSON.stringify(updated));
+          } else {
+            const updated = newsletters.filter(p => p.slug !== id);
+            setNewsletters(updated);
+            localStorage.setItem('newsletter_posts', JSON.stringify(updated));
+          }
+          
           setEditingId(null);
+          setTimeout(() => setMessage(''), 2000);
         } else {
-          setMessage('✗ Failed to delete');
+          const error = await response.json();
+          setMessage(`✗ Failed: ${error.error || 'Unknown error'}`);
         }
       } else {
         const response = await fetch('/api/admin/data', {
@@ -138,12 +151,13 @@ export function AdminDashboard({ onLogout }: { onLogout: () => void }) {
           setMessage('✓ Deleted successfully');
           fetchData();
           setEditingId(null);
+          setTimeout(() => setMessage(''), 2000);
         } else {
           setMessage('✗ Failed to delete');
         }
       }
     } catch (error) {
-      setMessage('✗ Error deleting');
+      setMessage(`✗ Error: ${error instanceof Error ? error.message : 'Unknown'}`);
     } finally {
       setSaving(false);
     }
