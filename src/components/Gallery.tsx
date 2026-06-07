@@ -9,6 +9,7 @@ interface GalleryImage {
 }
 
 const images: GalleryImage[] = [
+  { src: '/images/rupali-interview-event.jpg', alt: 'Speaking at Industry Event' },
   { src: '/images/1742790421461.jpeg', alt: 'Event 1' },
   { src: '/images/1742968013027.jpeg', alt: 'Event 2' },
   { src: '/images/1742968014819.jpeg', alt: 'Event 3' },

@@ -5,29 +5,30 @@ import { RequestForm } from "@/components/forms/RequestForm";
 import { site } from "@/lib/site";
 import Image from "next/image";
 
-export const metadata = pageMeta("Media", "Professional media kit, headshots, biography, and media requests.", "/media");
+export const metadata = pageMeta("Media & Press Kit", "Professional materials, biography, headshots, and media requests.", "/media");
+
+const bioShort = "Rupali Gupta is Global Director of Platform Engineering at Dunnhumby, a two time LinkedIn Top Voice, and a keynote speaker on platform engineering and the governance of agentic AI.";
+const bioLong = "Rupali Gupta is a global technology executive and enterprise architect with more than two decades of experience. As Global Director of Platform Engineering at Dunnhumby, a Tesco company, she leads global platforms, applications, and developer experience, and drives AI native platform engineering, AgentOps, and the governance of autonomous multi agent systems. Her foundation is deep FinTech and regulated financial services, across more than a decade at Fidelity International. She is a two time LinkedIn Top Voice, a multiple award winning engineering leader, a global keynote speaker, and an advocate for women in technology.";
 
 export default function Media() {
   return (
     <>
-      {/* Press Kit Header */}
+      {/* Header */}
       <Section>
-        <SectionHead kicker="Media & Press Kit" title="Professional materials, biography, and media inquiries." />
-        
-        {/* Bio & Quick Links */}
+        <SectionHead kicker="Media & Press Kit" title="Everything media teams and event organizers need." />
+      </Section>
+
+      {/* Executive Bio & Quick Links */}
+      <Section>
         <div className="grid gap-8 lg:grid-cols-3 mb-16">
-          <div className="lg:col-span-2">
-            <Kicker>Executive Biography</Kicker>
-            <div className="mt-5 space-y-4 text-muted leading-relaxed">
-              <p>
-                Rupali Gupta is Global Director of Platform Engineering at dunnhumby, leading enterprise-scale platform transformation and the governance of agentic AI. With 20+ years across financial services, platform engineering, and enterprise architecture, she designs intelligent, resilient platforms that power mission-critical systems at scale.
-              </p>
-              <p>
-                Known for visionary thought leadership, Rupali builds high-performing global teams, champions AI-native engineering practices, and helps organizations move from AI experimentation to operationalized, governed systems. Her expertise spans platform engineering, internal developer platforms, GenAI governance, multi-tenancy architecture, FinOps, and cloud-native transformation.
-              </p>
-              <p>
-                A keynote speaker at industry forums, Rupali has presented at KubeCon, Dine with DevOps, New Relic Executive Connect, Technophiles India, and global AI conferences, reaching CXOs, CTOs, and engineering leaders worldwide.
-              </p>
+          <div className="lg:col-span-2 space-y-8">
+            <div>
+              <Kicker>Short Biography</Kicker>
+              <p className="mt-3 text-text">{bioShort}</p>
+            </div>
+            <div>
+              <Kicker>Full Biography</Kicker>
+              <p className="mt-3 text-muted leading-relaxed">{bioLong}</p>
             </div>
           </div>
 
@@ -35,90 +36,60 @@ export default function Media() {
             <Kicker>Quick Links</Kicker>
             <div className="space-y-2 text-sm">
               <a href="https://www.linkedin.com/in/rupaligupta24" target="_blank" rel="noopener" className="block p-3 rounded-lg border border-line-2 bg-panel hover:border-gold transition text-cream">LinkedIn Profile →</a>
-              <a href="https://x.com/RupaliGupta24" target="_blank" rel="noopener" className="block p-3 rounded-lg border border-line-2 bg-panel hover:border-gold transition text-cream">Twitter / X →</a>
-              <a href="https://medium.com/@guptarupali" target="_blank" rel="noopener" className="block p-3 rounded-lg border border-line-2 bg-panel hover:border-gold transition text-cream">Medium Blog →</a>
+              <a href="https://x.com/RupaliGupta24" target="_blank" rel="noopener" className="block p-3 rounded-lg border border-line-2 bg-panel hover:border-gold transition text-cream">X / Twitter →</a>
+              <a href="https://medium.com/@guptarupali" target="_blank" rel="noopener" className="block p-3 rounded-lg border border-line-2 bg-panel hover:border-gold transition text-cream">Medium →</a>
               <a href="https://rupaligupta.in/speaking" className="block p-3 rounded-lg border border-line-2 bg-panel hover:border-gold transition text-cream">Speaking Topics →</a>
             </div>
           </div>
         </div>
       </Section>
 
-      {/* Headshots */}
+      {/* Professional Headshots */}
       <Section className="bg-bg-2">
-        <SectionHead kicker="Professional Headshots" title="Available for press, articles, and publications." />
-        <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4 mb-8">
-          <div className="space-y-3">
-            <div className="rounded-2xl border border-line overflow-hidden bg-panel aspect-square">
-              <Image
-                src="/images/rupali-headshot-2.jpg"
-                alt="Rupali Gupta - Professional Headshot 1"
-                width={400}
-                height={400}
-                className="w-full h-full object-cover"
-              />
-            </div>
-            <p className="text-xs text-muted text-center">Urban Evening · Casual Professional</p>
-          </div>
-          <div className="space-y-3">
-            <div className="rounded-2xl border border-line overflow-hidden bg-panel aspect-square">
-              <Image
-                src="/images/rupali-headshot-4.jpg"
-                alt="Rupali Gupta - Professional Headshot 2"
-                width={400}
-                height={400}
-                className="w-full h-full object-cover"
-              />
-            </div>
-            <p className="text-xs text-muted text-center">Urban Lights · Modern Professional</p>
-          </div>
+        <SectionHead kicker="Professional Headshots" title="High-resolution images available for press and publications." />
+        <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3 mb-8">
           <div className="space-y-3">
             <div className="rounded-2xl border border-line overflow-hidden bg-panel aspect-square">
               <Image
                 src="/images/rupali-headshot-5.jpg"
-                alt="Rupali Gupta - Professional Headshot 3"
+                alt="Rupali Gupta"
                 width={400}
                 height={400}
                 className="w-full h-full object-cover"
               />
             </div>
-            <p className="text-xs text-muted text-center">Office Setting · Business Professional</p>
+          </div>
+          <div className="space-y-3">
+            <div className="rounded-2xl border border-line overflow-hidden bg-panel aspect-square">
+              <Image
+                src="/images/rupali-headshot-3.png"
+                alt="Rupali Gupta"
+                width={400}
+                height={400}
+                className="w-full h-full object-cover"
+              />
+            </div>
           </div>
           <div className="space-y-3">
             <div className="rounded-2xl border border-line overflow-hidden bg-panel aspect-square">
               <Image
                 src="/images/rupali-headshot.jpeg"
-                alt="Rupali Gupta - Professional Headshot 4"
+                alt="Rupali Gupta"
                 width={400}
                 height={400}
                 className="w-full h-full object-cover"
               />
             </div>
-            <p className="text-xs text-muted text-center">Studio Professional · High Resolution</p>
           </div>
-        </div>
-
-        {/* Interview & Speaking Photo */}
-        <div className="mt-12 mb-8">
-          <Kicker>Interview & Speaking Events</Kicker>
-          <div className="mt-5 rounded-2xl border border-line overflow-hidden bg-panel">
-            <Image
-              src="/images/rupali-interview-event.jpg"
-              alt="Rupali Gupta - Speaking at Industry Event"
-              width={800}
-              height={450}
-              className="w-full h-auto"
-            />
-          </div>
-          <p className="text-sm text-muted mt-3">Speaking engagement and industry event coverage</p>
         </div>
 
         <div className="p-4 rounded-lg bg-panel border border-line-2">
           <p className="text-xs text-gold mb-2">Usage Rights</p>
-          <p className="text-xs text-muted">All photographs are free to use for press, editorial, and publication purposes. Photo credit: Rupali Gupta</p>
+          <p className="text-xs text-muted">Free to use for press, editorial, and publication purposes. Credit: Rupali Gupta</p>
         </div>
       </Section>
 
-      {/* Speaking & Expertise */}
+      {/* Key Credentials */}
       <Section>
         <div className="grid gap-12 lg:grid-cols-2">
           <div>
@@ -128,8 +99,8 @@ export default function Media() {
                 "Platform Engineering at Enterprise Scale",
                 "Agentic AI: Governance, Observability, and Autonomous Systems",
                 "Building AI-Native Organizations",
-                "From DevOps to Platform Engineering: The Evolution of Engineering Practices",
-                "Cloud-Native Transformation and Multi-Tenancy Architecture",
+                "From DevOps to Platform Engineering",
+                "Cloud-Native Transformation and Multi-Tenancy",
                 "FinOps and Cost Intelligence in Platform Engineering",
                 "Women in Technology Leadership"
               ].map((topic) => (
@@ -144,11 +115,11 @@ export default function Media() {
             <Kicker>Key Credentials</Kicker>
             <div className="mt-5 space-y-3">
               {[
-                { label: "Current Role", value: "Global Director of Platform Engineering, dunnhumby" },
+                { label: "Current Role", value: "Global Director of Platform Engineering, Dunnhumby" },
                 { label: "Experience", value: "20+ years in Enterprise Architecture, FinTech, Platform Engineering" },
-                { label: "Leadership", value: "Led 300+ global engineering teams, $30M+ portfolio management" },
-                { label: "Recognition", value: "Digital Renaissance Leader 2025, Platform Leadership Award" },
-                { label: "Speaking", value: "17+ keynotes 2024-2025 across global forums" },
+                { label: "Leadership", value: "Led 300+ global engineering teams, £30M+ portfolio management" },
+                { label: "Recognition", value: "Digital Renaissance Leader 2025, Multiple Award Winner" },
+                { label: "Speaking", value: "17+ keynotes 2024-2025 at global forums" },
                 { label: "Education", value: "B.Tech Computer Science, PG Data Science (UCD Dublin)" },
               ].map((item) => (
                 <div key={item.label} className="p-4 rounded-lg border border-line-2 bg-panel">
@@ -161,18 +132,18 @@ export default function Media() {
         </div>
       </Section>
 
-      {/* Coverage & Media Requests */}
+      {/* Media Coverage & Requests */}
       <Section className="bg-bg-2">
-        <SectionHead kicker="In the Media" title="Recent interviews, features, and publications." />
+        <SectionHead kicker="In the Media" title="Recent interviews and features." />
         <div className="grid gap-12 lg:grid-cols-2">
           <div>
             <Kicker>Coverage</Kicker>
             <div className="mt-5 space-y-3">
               {media.map((m) => (
-                <div key={m.h} className="rounded-xl border border-line-2 bg-panel p-5">
+                <div key={m.id} className="rounded-xl border border-line-2 bg-panel p-5">
                   <span className="font-mono text-xs text-gold">{m.type}</span>
-                  <h3 className="mt-1 text-lg text-cream">{m.h}</h3>
-                  <p className="mt-1 text-sm text-muted">{m.p}</p>
+                  <h3 className="mt-1 text-lg text-cream">{m.title}</h3>
+                  <p className="mt-1 text-sm text-muted">{m.description}</p>
                 </div>
               ))}
             </div>

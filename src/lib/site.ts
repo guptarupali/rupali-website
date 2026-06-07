@@ -13,10 +13,9 @@ export const site = {
     { label: "Writing", href: "/blog" },
     { label: "Speaking", href: "/speaking" },
     { label: "Advisory", href: "/advisory" },
-    { label: "Media", href: "/media" },
+    { label: "Media & Press Kit", href: "/media" },
     { label: "Awards", href: "/awards" },
     { label: "Gallery", href: "/gallery" },
-    { label: "Press Kit", href: "/press-kit" },
   ],
   newsletters: {
     aiPulse: {
