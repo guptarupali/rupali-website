@@ -247,6 +247,12 @@
     },
     {
       "id": "social-3",
+      "platform": "Instagram",
+      "url": "https://instagram.com/RupaliGupta24",
+      "handle": "@RupaliGupta24"
+    },
+    {
+      "id": "social-4",
       "platform": "Medium",
       "url": "https://medium.com/@guptarupali",
       "handle": "@guptarupali"

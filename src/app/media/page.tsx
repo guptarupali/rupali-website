@@ -5,7 +5,7 @@ import { RequestForm } from "@/components/forms/RequestForm";
 import { site } from "@/lib/site";
 import Image from "next/image";
 
-export const metadata = pageMeta("Media & Press Kit", "Professional materials, biography, headshots, and media requests.", "/media");
+export const metadata = pageMeta("Media Kit", "Professional materials, biography, headshots, and media requests.", "/media");
 
 const bioShort = "Rupali Gupta is Global Director of Platform Engineering at Dunnhumby, a two time LinkedIn Top Voice, and a keynote speaker on platform engineering and the governance of agentic AI.";
 const bioLong = "Rupali Gupta is a global technology executive and enterprise architect with more than two decades of experience. As Global Director of Platform Engineering at Dunnhumby, a Tesco company, she leads global platforms, applications, and developer experience, and drives AI native platform engineering, AgentOps, and the governance of autonomous multi agent systems. Her foundation is deep FinTech and regulated financial services, across more than a decade at Fidelity International. She is a two time LinkedIn Top Voice, a multiple award winning engineering leader, a global keynote speaker, and an advocate for women in technology.";
@@ -15,7 +15,7 @@ export default function Media() {
     <>
       {/* Header */}
       <Section>
-        <SectionHead kicker="Media & Press Kit" title="Everything media teams and event organizers need." />
+        <SectionHead kicker="Media Kit" title="Everything media teams and event organizers need." />
       </Section>
 
       {/* Executive Bio & Quick Links */}
@@ -37,8 +37,8 @@ export default function Media() {
             <div className="space-y-2 text-sm">
               <a href="https://www.linkedin.com/in/rupaligupta24" target="_blank" rel="noopener" className="block p-3 rounded-lg border border-line-2 bg-panel hover:border-gold transition text-cream">LinkedIn Profile →</a>
               <a href="https://x.com/RupaliGupta24" target="_blank" rel="noopener" className="block p-3 rounded-lg border border-line-2 bg-panel hover:border-gold transition text-cream">X / Twitter →</a>
+              <a href="https://instagram.com/RupaliGupta24" target="_blank" rel="noopener" className="block p-3 rounded-lg border border-line-2 bg-panel hover:border-gold transition text-cream">Instagram →</a>
               <a href="https://medium.com/@guptarupali" target="_blank" rel="noopener" className="block p-3 rounded-lg border border-line-2 bg-panel hover:border-gold transition text-cream">Medium →</a>
-              <a href="https://rupaligupta.in/speaking" className="block p-3 rounded-lg border border-line-2 bg-panel hover:border-gold transition text-cream">Speaking Topics →</a>
             </div>
           </div>
         </div>

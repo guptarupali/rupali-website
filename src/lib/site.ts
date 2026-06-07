@@ -13,7 +13,7 @@ export const site = {
     { label: "Writing", href: "/blog" },
     { label: "Speaking", href: "/speaking" },
     { label: "Advisory", href: "/advisory" },
-    { label: "Media & Press Kit", href: "/media" },
+    { label: "Media Kit", href: "/media" },
     { label: "Awards", href: "/awards" },
     { label: "Gallery", href: "/gallery" },
   ],
