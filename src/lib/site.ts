@@ -10,7 +10,8 @@ export const site = {
   linkedin: "https://www.linkedin.com/in/rupaligupta24",
   nav: [
     { label: "About", href: "/about" },
-    { label: "Writing", href: "/blog" },
+    { label: "Blog", href: "/blog" },
+    { label: "Insights", href: "/insights" },
     { label: "Speaking", href: "/speaking" },
     { label: "Advisory", href: "/advisory" },
     { label: "Media Kit", href: "/media" },
