@@ -139,11 +139,11 @@ export default function Media() {
           <div>
             <Kicker>Coverage</Kicker>
             <div className="mt-5 space-y-3">
-              {media.map((m) => (
-                <div key={m.id} className="rounded-xl border border-line-2 bg-panel p-5">
+              {media.map((m, idx) => (
+                <div key={idx} className="rounded-xl border border-line-2 bg-panel p-5">
                   <span className="font-mono text-xs text-gold">{m.type}</span>
-                  <h3 className="mt-1 text-lg text-cream">{m.title}</h3>
-                  <p className="mt-1 text-sm text-muted">{m.description}</p>
+                  <h3 className="mt-1 text-lg text-cream">{m.h}</h3>
+                  <p className="mt-1 text-sm text-muted">{m.p}</p>
                 </div>
               ))}
             </div>
