@@ -231,5 +231,25 @@
       "id": "1780770266001"
     }
   ],
-  "bio": "As a seasoned technology leader with more than 20 years of experience, I bring a strategic approach to architecting highly scalable, resilient distributed platforms and leading full-scale digital transformations. With expertise in distributed architecture, platform engineering, GenAI and Agentic AI innovation and transformation, data and microservices architecture, cloud and domain driven design, I ensure solutions align seamlessly with business goals while enhancing customer centricity, cost efficiency, revenue generation and accelerating time-to-market."
+  "bio": "As a seasoned technology leader with more than 20 years of experience, I bring a strategic approach to architecting highly scalable, resilient distributed platforms and leading full-scale digital transformations. With expertise in distributed architecture, platform engineering, GenAI and Agentic AI innovation and transformation, data and microservices architecture, cloud and domain driven design, I ensure solutions align seamlessly with business goals while enhancing customer centricity, cost efficiency, revenue generation and accelerating time-to-market.",
+  "social": [
+    {
+      "id": "social-1",
+      "platform": "LinkedIn",
+      "url": "https://www.linkedin.com/in/rupaligupta24",
+      "handle": "@rupaligupta24"
+    },
+    {
+      "id": "social-2",
+      "platform": "Twitter / X",
+      "url": "https://x.com/RupaliGupta24",
+      "handle": "@RupaliGupta24"
+    },
+    {
+      "id": "social-3",
+      "platform": "Medium",
+      "url": "https://medium.com/@guptarupali",
+      "handle": "@guptarupali"
+    }
+  ]
 }

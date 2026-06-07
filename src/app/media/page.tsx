@@ -35,8 +35,9 @@ export default function Media() {
             <Kicker>Quick Links</Kicker>
             <div className="space-y-2 text-sm">
               <a href="https://www.linkedin.com/in/rupaligupta24" target="_blank" rel="noopener" className="block p-3 rounded-lg border border-line-2 bg-panel hover:border-gold transition text-cream">LinkedIn Profile →</a>
+              <a href="https://x.com/RupaliGupta24" target="_blank" rel="noopener" className="block p-3 rounded-lg border border-line-2 bg-panel hover:border-gold transition text-cream">Twitter / X →</a>
+              <a href="https://medium.com/@guptarupali" target="_blank" rel="noopener" className="block p-3 rounded-lg border border-line-2 bg-panel hover:border-gold transition text-cream">Medium Blog →</a>
               <a href="https://rupaligupta.in/speaking" className="block p-3 rounded-lg border border-line-2 bg-panel hover:border-gold transition text-cream">Speaking Topics →</a>
-              <a href="https://rupaligupta.in/gallery" className="block p-3 rounded-lg border border-line-2 bg-panel hover:border-gold transition text-cream">Photo Gallery →</a>
             </div>
           </div>
         </div>
@@ -45,39 +46,75 @@ export default function Media() {
       {/* Headshots */}
       <Section className="bg-bg-2">
         <SectionHead kicker="Professional Headshots" title="Available for press, articles, and publications." />
-        <div className="grid gap-8 md:grid-cols-2 mb-8">
+        <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4 mb-8">
           <div className="space-y-3">
-            <div className="rounded-2xl border border-line overflow-hidden bg-panel">
+            <div className="rounded-2xl border border-line overflow-hidden bg-panel aspect-square">
               <Image
-                src="/images/rupali-headshot.jpeg"
-                alt="Rupali Gupta - Professional Headshot"
-                width={500}
-                height={600}
-                className="w-full h-auto"
+                src="/images/rupali-headshot-2.jpg"
+                alt="Rupali Gupta - Professional Headshot 1"
+                width={400}
+                height={400}
+                className="w-full h-full object-cover"
               />
             </div>
-            <p className="text-sm text-muted text-center">Professional Portrait · High Resolution</p>
+            <p className="text-xs text-muted text-center">Urban Evening · Casual Professional</p>
           </div>
-          <div className="space-y-4 flex flex-col justify-center">
-            <div>
-              <p className="text-sm text-gold mb-2">Download Options</p>
-              <div className="space-y-2">
-                <button className="w-full p-3 rounded-lg border border-line-2 bg-panel hover:border-gold transition text-left text-sm">
-                  Download High Res (1200px) →
-                </button>
-                <button className="w-full p-3 rounded-lg border border-line-2 bg-panel hover:border-gold transition text-left text-sm">
-                  Download Web (800px) →
-                </button>
-                <button className="w-full p-3 rounded-lg border border-line-2 bg-panel hover:border-gold transition text-left text-sm">
-                  Download Thumbnail (400px) →
-                </button>
-              </div>
+          <div className="space-y-3">
+            <div className="rounded-2xl border border-line overflow-hidden bg-panel aspect-square">
+              <Image
+                src="/images/rupali-headshot-4.jpg"
+                alt="Rupali Gupta - Professional Headshot 2"
+                width={400}
+                height={400}
+                className="w-full h-full object-cover"
+              />
             </div>
-            <div className="p-4 rounded-lg bg-panel border border-line-2">
-              <p className="text-xs text-gold mb-2">Usage Rights</p>
-              <p className="text-xs text-muted">Free to use for press, editorial, and publication purposes. Photo credit: Rupali Gupta</p>
-            </div>
+            <p className="text-xs text-muted text-center">Urban Lights · Modern Professional</p>
           </div>
+          <div className="space-y-3">
+            <div className="rounded-2xl border border-line overflow-hidden bg-panel aspect-square">
+              <Image
+                src="/images/rupali-headshot-5.jpg"
+                alt="Rupali Gupta - Professional Headshot 3"
+                width={400}
+                height={400}
+                className="w-full h-full object-cover"
+              />
+            </div>
+            <p className="text-xs text-muted text-center">Office Setting · Business Professional</p>
+          </div>
+          <div className="space-y-3">
+            <div className="rounded-2xl border border-line overflow-hidden bg-panel aspect-square">
+              <Image
+                src="/images/rupali-headshot.jpeg"
+                alt="Rupali Gupta - Professional Headshot 4"
+                width={400}
+                height={400}
+                className="w-full h-full object-cover"
+              />
+            </div>
+            <p className="text-xs text-muted text-center">Studio Professional · High Resolution</p>
+          </div>
+        </div>
+
+        {/* Interview & Speaking Photo */}
+        <div className="mt-12 mb-8">
+          <Kicker>Interview & Speaking Events</Kicker>
+          <div className="mt-5 rounded-2xl border border-line overflow-hidden bg-panel">
+            <Image
+              src="/images/rupali-interview-event.jpg"
+              alt="Rupali Gupta - Speaking at Industry Event"
+              width={800}
+              height={450}
+              className="w-full h-auto"
+            />
+          </div>
+          <p className="text-sm text-muted mt-3">Speaking engagement and industry event coverage</p>
+        </div>
+
+        <div className="p-4 rounded-lg bg-panel border border-line-2">
+          <p className="text-xs text-gold mb-2">Usage Rights</p>
+          <p className="text-xs text-muted">All photographs are free to use for press, editorial, and publication purposes. Photo credit: Rupali Gupta</p>
         </div>
       </Section>
 
