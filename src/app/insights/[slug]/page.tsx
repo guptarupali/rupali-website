@@ -107,8 +107,7 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
           {/* Body */}
           <div className="space-y-6 text-lg leading-relaxed">
           {contentLines.map((paragraph: string, idx: number) => {
-   {contentLines.map((paragraph, idx) => {
-              // Handle headings
+              // Handle headings        // Handle headings
               if (paragraph.startsWith('# ')) {
                 return (
                   <h2 key={idx} className="text-4xl font-serif text-cream mt-8 mb-4">
