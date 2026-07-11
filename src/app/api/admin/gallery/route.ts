@@ -7,7 +7,7 @@ export async function GET() {
     const { data, error } = await supabase.from('gallery').select('*').order('sort_order', { ascending: true })
     if (error) throw error
     return NextResponse.json({ images: data })
-  } catch (error) {
+  } catch (error: any) {
     return NextResponse.json({ error: error.message }, { status: 500 })
   }
 }
@@ -21,7 +21,7 @@ export async function POST(request) {
     const { data, error } = await supabase.from('gallery').insert({ image_url, alt: alt || 'Event photo', sort_order: nextOrder }).select().single()
     if (error) throw error
     return NextResponse.json(data, { status: 201 })
-  } catch (error) {
+  } catch (error: any) {
     return NextResponse.json({ error: error.message }, { status: 500 })
   }
 }
@@ -33,7 +33,7 @@ export async function DELETE(request) {
     const { error } = await supabase.from('gallery').delete().eq('id', id)
     if (error) throw error
     return NextResponse.json({ success: true })
-  } catch (error) {
+  } catch (error: any) {
     return NextResponse.json({ error: error.message }, { status: 500 })
   }
 }

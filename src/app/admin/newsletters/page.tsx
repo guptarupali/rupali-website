@@ -37,7 +37,7 @@ export default function NewsletterAdminPage() {
 
       setSettings(prev => prev.map(s => s.slug === slug ? { ...s, banner_url: url } : s))
       setMsg('Banner saved for ' + slug)
-    } catch (err) {
+    } catch (err: any) {
       setMsg('Error: ' + err.message)
     } finally {
       setUploadingSlug('')

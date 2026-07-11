@@ -10,7 +10,7 @@ export async function GET() {
       .order('slug')
     if (error) throw error
     return NextResponse.json({ settings })
-  } catch (error) {
+  } catch (error: any) {
     return NextResponse.json({ error: error.message }, { status: 500 })
   }
 }
@@ -25,7 +25,7 @@ export async function POST(request) {
       .eq('slug', slug)
     if (error) throw error
     return NextResponse.json({ success: true })
-  } catch (error) {
+  } catch (error: any) {
     return NextResponse.json({ error: error.message }, { status: 500 })
   }
 }

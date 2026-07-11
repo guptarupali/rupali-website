@@ -2,7 +2,7 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 
-function slugify(text) {
+function slugify(text: string) {
   return text.toLowerCase().trim().replace(/[^a-z0-9\s-]/g, '').replace(/\s+/g, '-').replace(/-+/g, '-')
 }
 
@@ -18,7 +18,7 @@ export default function NewArticlePage() {
     setForm(f => ({ ...f, title, slug: slugEdited ? f.slug : slugify(title) }))
   }
 
-  const handleImageUpload = async (e) => {
+  const handleImageUpload = async (e: any) => {
     const file = e.target.files?.[0]
     if (!file) return
     setUploading(true)
@@ -30,14 +30,14 @@ export default function NewArticlePage() {
       if (!res.ok) { const err = await res.json(); throw new Error(err.error || 'Upload failed') }
       const data = await res.json()
       setForm(f => ({ ...f, featured_image_url: data.url }))
-    } catch (err) {
+    } catch (err: any) {
       setError(err.message)
     } finally {
       setUploading(false)
     }
   }
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: any) => {
     e.preventDefault()
     setLoading(true)
     setError('')
@@ -58,7 +58,7 @@ export default function NewArticlePage() {
       if (!publishRes.ok) { const err = await publishRes.json(); throw new Error(err.error || 'Failed to publish article') }
 
       router.push('/insights/' + article.slug)
-    } catch (err) {
+    } catch (err: any) {
       setError(err.message)
       setLoading(false)
     }

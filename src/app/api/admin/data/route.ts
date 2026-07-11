@@ -39,7 +39,7 @@ async function getGitHubFile(filePath: string) {
 
     const content = await response.text();
     return JSON.parse(content);
-  } catch (error) {
+  } catch (error: any) {
     console.error('Error fetching from GitHub:', error);
     return null;
   }
@@ -74,7 +74,7 @@ async function updateGitHubFile(
         sha = data.sha;
       }
     }
-  } catch (err) {
+  } catch (err: any) {
     console.error('Error getting file SHA:', err);
   }
 
@@ -130,7 +130,7 @@ export async function GET(request: NextRequest) {
     }
 
     return NextResponse.json({ error: 'Invalid entity' }, { status: 400 });
-  } catch (error) {
+  } catch (error: any) {
     console.error('GET error:', error);
     return NextResponse.json(
       { error: error instanceof Error ? error.message : 'Server error' },
@@ -178,7 +178,7 @@ export async function POST(request: NextRequest) {
     await updateGitHubFile(filePath, data, `Add ${entity} item`);
 
     return NextResponse.json({ success: true, item: newItem });
-  } catch (error) {
+  } catch (error: any) {
     console.error('POST error:', error);
     return NextResponse.json(
       { error: error instanceof Error ? error.message : 'Server error' },
@@ -221,7 +221,7 @@ export async function PUT(request: NextRequest) {
     await updateGitHubFile(filePath, data, `Update ${entity} item`);
 
     return NextResponse.json({ success: true, item: data[entity][index] });
-  } catch (error) {
+  } catch (error: any) {
     console.error('PUT error:', error);
     return NextResponse.json(
       { error: error instanceof Error ? error.message : 'Server error' },
@@ -256,7 +256,7 @@ export async function DELETE(request: NextRequest) {
     await updateGitHubFile(filePath, data, `Delete ${entity} item`);
 
     return NextResponse.json({ success: true });
-  } catch (error) {
+  } catch (error: any) {
     console.error('DELETE error:', error);
     return NextResponse.json(
       { error: error instanceof Error ? error.message : 'Server error' },

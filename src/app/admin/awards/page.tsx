@@ -12,7 +12,7 @@ export default function AwardsAdminPage() {
   }
   useEffect(() => { load() }, [])
 
-  const add = async (e) => {
+  const add = async (e: any) => {
     e.preventDefault()
     setSaving(true)
     try {
@@ -20,7 +20,7 @@ export default function AwardsAdminPage() {
       if (!res.ok) throw new Error('Failed to add')
       setForm({ year: '', title: '', subtitle: '' })
       load()
-    } catch (err) {
+    } catch (err: any) {
       alert(err.message)
     } finally {
       setSaving(false)

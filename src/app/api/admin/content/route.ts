@@ -32,7 +32,7 @@ async function getFileFromGitHub(filePath: string) {
       sha: data.sha,
       content: Buffer.from(data.content, 'base64').toString('utf-8'),
     };
-  } catch (error) {
+  } catch (error: any) {
     console.error('Error fetching file:', error);
     return null;
   }
@@ -138,7 +138,7 @@ export async function GET(request: NextRequest) {
 
     // List all posts (simplified - just return empty for now, UI will handle local list)
     return NextResponse.json({ items: [] });
-  } catch (error) {
+  } catch (error: any) {
     console.error('GET error:', error);
     return NextResponse.json(
       { error: error instanceof Error ? error.message : 'Server error' },
@@ -199,7 +199,7 @@ ${category ? `category: "${category}"` : ''}
 
     console.log(`[Blog] Successfully published ${filePath}`);
     return NextResponse.json({ success: true, slug });
-  } catch (error) {
+  } catch (error: any) {
     const errorMsg = error instanceof Error ? error.message : 'Unknown error';
     console.error('[Blog] POST error:', errorMsg, error);
     return NextResponse.json(
@@ -253,7 +253,7 @@ ${category ? `category: "${category}"` : ''}
     );
 
     return NextResponse.json({ success: true, slug });
-  } catch (error) {
+  } catch (error: any) {
     console.error('PUT error:', error);
     return NextResponse.json(
       { error: error instanceof Error ? error.message : 'Server error' },
@@ -279,7 +279,7 @@ export async function DELETE(request: NextRequest) {
     await deleteFileFromGitHub(filePath, `Delete ${type} post`);
 
     return NextResponse.json({ success: true });
-  } catch (error) {
+  } catch (error: any) {
     console.error('DELETE error:', error);
     return NextResponse.json(
       { error: error instanceof Error ? error.message : 'Server error' },

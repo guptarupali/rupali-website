@@ -12,7 +12,7 @@ export default function GalleryAdminPage() {
   }
   useEffect(() => { load() }, [])
 
-  const uploadMany = async (e) => {
+  const uploadMany = async (e: any) => {
     const files = Array.from(e.target.files || [])
     if (!files.length) return
     setUploading(true)
@@ -27,7 +27,7 @@ export default function GalleryAdminPage() {
         const { url } = await up.json()
         await fetch('/api/admin/gallery', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ image_url: url }) })
         done++
-      } catch (err) {
+      } catch (err: any) {
         console.error('Failed on', file.name, err)
       }
     }

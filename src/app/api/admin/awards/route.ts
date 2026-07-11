@@ -7,7 +7,7 @@ export async function GET() {
     const { data, error } = await supabase.from('awards').select('*').order('sort_year', { ascending: false })
     if (error) throw error
     return NextResponse.json({ awards: data })
-  } catch (error) {
+  } catch (error: any) {
     return NextResponse.json({ error: error.message }, { status: 500 })
   }
 }
@@ -21,7 +21,7 @@ export async function POST(request) {
     const { data, error } = await supabase.from('awards').insert({ year, title, subtitle, sort_year }).select().single()
     if (error) throw error
     return NextResponse.json(data, { status: 201 })
-  } catch (error) {
+  } catch (error: any) {
     return NextResponse.json({ error: error.message }, { status: 500 })
   }
 }
@@ -33,7 +33,7 @@ export async function DELETE(request) {
     const { error } = await supabase.from('awards').delete().eq('id', id)
     if (error) throw error
     return NextResponse.json({ success: true })
-  } catch (error) {
+  } catch (error: any) {
     return NextResponse.json({ error: error.message }, { status: 500 })
   }
 }

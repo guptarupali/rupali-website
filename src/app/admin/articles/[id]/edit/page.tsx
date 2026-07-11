@@ -29,7 +29,7 @@ export default function EditArticlePage() {
       .finally(() => setFetching(false))
   }, [id])
 
-  const handleImageUpload = async (e) => {
+  const handleImageUpload = async (e: any) => {
     const file = e.target.files?.[0]
     if (!file) return
     setUploading(true)
@@ -40,14 +40,14 @@ export default function EditArticlePage() {
       if (!res.ok) throw new Error('Upload failed')
       const data = await res.json()
       setForm(f => ({ ...f, featured_image_url: data.url }))
-    } catch (err) {
+    } catch (err: any) {
       setError(err.message)
     } finally {
       setUploading(false)
     }
   }
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: any) => {
     e.preventDefault()
     setLoading(true)
     setError('')
@@ -59,7 +59,7 @@ export default function EditArticlePage() {
       })
       if (!res.ok) { const err = await res.json(); throw new Error(err.error || 'Update failed') }
       router.push('/admin/articles')
-    } catch (err) {
+    } catch (err: any) {
       setError(err.message)
       setLoading(false)
     }
