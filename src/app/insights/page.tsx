@@ -1,132 +1,94 @@
 import { createServerClient } from '@/lib/supabase/server'
 import Link from 'next/link'
 
-export const metadata = {
-  title: 'Insights',
-  description: 'Articles on Platform Engineering, AI Governance, and Technology Leadership',
+const newsletterLabels = {
+  'platform-path': 'The Platform Path',
+  'ai-pulse': 'AI Pulse'
+}
+
+function groupByMonth(articles) {
+  const groups = []
+  const seen = {}
+  for (const a of articles) {
+    const d = a.published_at ? new Date(a.published_at) : null
+    const key = d ? d.toLocaleDateString('en-US', { month: 'long', year: 'numeric' }) : 'Undated'
+    if (!seen[key]) {
+      seen[key] = []
+      groups.push([key, seen[key]])
+    }
+    seen[key].push(a)
+  }
+  return groups
+}
+
+function ArticleRow({ article }) {
+  return (
+    <div style={{ borderBottom: '1px solid #333', paddingBottom: '32px', marginBottom: '32px', display: 'grid', gridTemplateColumns: article.featured_image_url ? '180px 1fr' : '1fr', gap: '24px', alignItems: 'start' }}>
+      {article.featured_image_url && (
+        <Link href={`/insights/${article.slug}`}>
+          <img src={article.featured_image_url} alt={article.title} style={{ width: '180px', height: '120px', objectFit: 'cover', borderRadius: '8px', cursor: 'pointer' }} />
+        </Link>
+      )}
+      <div>
+        {article.newsletter && newsletterLabels[article.newsletter] && (
+          <span style={{ display: 'inline-block', fontSize: '12px', color: '#C9A24B', border: '1px solid rgba(201,162,75,0.4)', borderRadius: '999px', padding: '2px 10px', marginBottom: '10px' }}>
+            {newsletterLabels[article.newsletter]}
+          </span>
+        )}
+        <Link href={`/insights/${article.slug}`}>
+          <h2 style={{ marginBottom: '10px', cursor: 'pointer', color: '#C9A24B', fontSize: '22px' }}>{article.title}</h2>
+        </Link>
+        <p style={{ color: '#999', marginBottom: '12px', fontSize: '14px' }}>
+          {new Date(article.published_at).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
+          {article.reading_time_minutes && ` • ${article.reading_time_minutes} min read`}
+        </p>
+        <p style={{ marginBottom: '12px', lineHeight: '1.6', color: '#ccc' }}>{article.excerpt}</p>
+        <Link href={`/insights/${article.slug}`} style={{ color: '#C9A24B', textDecoration: 'none' }}>Read article →</Link>
+      </div>
+    </div>
+  )
 }
 
 export default async function InsightsPage() {
-  try {
-    const supabase = createServerClient()
+  const supabase = createServerClient()
+  const { data: articles } = await supabase
+    .from('content')
+    .select('*')
+    .eq('published', true)
+    .order('published_at', { ascending: false })
 
-    const { data: articles, error } = await supabase
-      .from('content')
-      .select('*')
-      .eq('published', true)
-      .order('published_at', { ascending: false })
+  const grouped = groupByMonth(articles || [])
 
-    if (error) {
-      console.error('Error fetching articles:', error)
-      throw error
-    }
+  return (
+    <div style={{ padding: '40px', maxWidth: '1000px', margin: '0 auto' }}>
+      <h1 style={{ marginBottom: '10px' }}>Insights</h1>
+      <p style={{ color: '#999', marginBottom: '30px' }}>
+        Deep perspectives on AI, Platform Engineering, and Technology Leadership
+      </p>
 
-    const categories = [...new Set(articles?.map(a => a.category).filter(Boolean))]
-
-    return (
-      <div className="min-h-screen bg-bg">
-        {/* Hero */}
-        <div className="max-w-6xl mx-auto px-6 py-16">
-          <div className="mb-12">
-            <h1 className="text-5xl font-serif text-cream mb-4 leading-tight">
-              Insights
-            </h1>
-            <p className="text-xl text-muted">
-              Thoughts on Platform Engineering, AI Governance, and Technology Leadership
-            </p>
-          </div>
-
-          {/* Category Filter */}
-          {categories.length > 0 && (
-            <div className="mb-8 flex flex-wrap gap-2">
-              <Link 
-                href="/insights" 
-                className="px-4 py-2 rounded-full bg-gold text-bg font-medium transition hover:bg-gold-2"
-              >
-                All
-              </Link>
-              {categories.map(category => (
-                <span 
-                  key={category}
-                  className="px-4 py-2 rounded-full bg-panel border border-line-2 text-cream"
-                >
-                  {category}
-                </span>
-              ))}
-            </div>
-          )}
-
-          {/* Articles Grid */}
-          <div className="space-y-6">
-            {articles && articles.length > 0 ? (
-              articles.map(article => {
-                const publishDate = article.published_at 
-                  ? new Date(article.published_at).toLocaleDateString('en-US', { 
-                      year: 'numeric', 
-                      month: 'short', 
-                      day: 'numeric' 
-                    })
-                  : ''
-
-                return (
-                  <Link 
-                    key={article.id}
-                    href={`/insights/${article.slug}`}
-                    className="group block p-6 rounded-xl border border-line-2 bg-panel hover:border-gold hover:bg-panel/80 transition"
-                  >
-                    <div className="flex justify-between items-start gap-4 mb-4">
-                      <div className="flex-1">
-                        {article.category && (
-                          <span className="inline-block px-3 py-1 rounded-full bg-gold/10 text-gold text-xs font-medium mb-3 border border-gold/30">
-                            {article.category}
-                          </span>
-                        )}
-                        <h2 className="text-2xl font-serif text-cream group-hover:text-gold transition mb-2">
-                          {article.title}
-                        </h2>
-                      </div>
-                      {article.reading_time_minutes && (
-                        <span className="text-muted text-sm whitespace-nowrap">
-                          {article.reading_time_minutes}m
-                        </span>
-                      )}
-                    </div>
-
-                    {article.excerpt && (
-                      <p className="text-muted mb-4 line-clamp-2">
-                        {article.excerpt}
-                      </p>
-                    )}
-
-                    <div className="flex justify-between items-center text-sm text-muted">
-                      <time dateTime={article.published_at}>
-                        {publishDate}
-                      </time>
-                      <span className="text-gold group-hover:text-gold-2 transition">
-                        Read more →
-                      </span>
-                    </div>
-                  </Link>
-                )
-              })
-            ) : (
-              <div className="text-center py-16">
-                <p className="text-muted text-lg">No articles published yet.</p>
-              </div>
-            )}
-          </div>
+      {grouped.length > 1 && (
+        <div style={{ marginBottom: '40px', display: 'flex', flexWrap: 'wrap', gap: '10px' }}>
+          {grouped.map(([month]) => (
+            <a key={month} href={`#m-${month.replace(/\s/g, '-')}`} style={{ fontSize: '13px', color: '#999', border: '1px solid #333', borderRadius: '999px', padding: '4px 14px', textDecoration: 'none' }}>
+              {month}
+            </a>
+          ))}
         </div>
-      </div>
-    )
-  } catch (error) {
-    console.error('Error rendering insights page:', error)
-    return (
-      <div className="min-h-screen bg-bg flex items-center justify-center">
-        <div className="text-center">
-          <h1 className="text-4xl text-cream mb-4">Error loading articles</h1>
-          <p className="text-muted">Please try again later.</p>
-        </div>
-      </div>
-    )
-  }
+      )}
+
+      {grouped.length === 0 ? (
+        <p>No articles yet. Create your first insight!</p>
+      ) : (
+        grouped.map(([month, items], idx) => (
+          <details key={month} id={`m-${month.replace(/\s/g, '-')}`} open={idx === 0} style={{ marginBottom: '24px', scrollMarginTop: '20px' }}>
+            <summary style={{ cursor: 'pointer', listStyle: 'none', display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '14px 0', borderBottom: '2px solid #C9A24B', marginBottom: '32px' }}>
+              <span style={{ fontSize: '20px', fontFamily: 'serif', color: '#C9A24B' }}>{month}</span>
+              <span style={{ fontSize: '13px', color: '#777' }}>{items.length} article{items.length > 1 ? 's' : ''}</span>
+            </summary>
+            {items.map((a) => <ArticleRow key={a.id} article={a} />)}
+          </details>
+        ))
+      )}
+    </div>
+  )
 }

@@ -1,4 +1,4 @@
-import { createServerClient } from '@/lib/supabase/server'
+import { createAdminClient } from '@/lib/supabase/admin'
 import { NextRequest, NextResponse } from 'next/server'
 
 export async function POST(
@@ -10,7 +10,7 @@ export async function POST(
     const body = await request.json()
     const { scheduled_for } = body
 
-    const supabase = createServerClient()
+    const supabase = createAdminClient()
 
     const { data: article, error } = await supabase
       .from('content')

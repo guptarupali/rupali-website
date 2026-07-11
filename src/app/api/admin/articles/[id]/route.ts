@@ -1,4 +1,4 @@
-import { createServerClient } from '@/lib/supabase/server'
+import { createAdminClient } from '@/lib/supabase/admin'
 import { NextRequest, NextResponse } from 'next/server'
 
 export async function GET(
@@ -7,7 +7,7 @@ export async function GET(
 ) {
   try {
     const { id } = await params
-    const supabase = createServerClient()
+    const supabase = createAdminClient()
 
     const { data: article, error } = await supabase
       .from('content')
@@ -42,7 +42,7 @@ export async function PUT(
       )
     }
 
-    const supabase = createServerClient()
+    const supabase = createAdminClient()
 
     const { data: article, error } = await supabase
       .from('content')
@@ -72,7 +72,7 @@ export async function DELETE(
 ) {
   try {
     const { id } = await params
-    const supabase = createServerClient()
+    const supabase = createAdminClient()
 
     const { error } = await supabase
       .from('content')

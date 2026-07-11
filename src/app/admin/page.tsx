@@ -1,204 +1,54 @@
-'use client';
+import Link from 'next/link'
+import { createServerClient } from '@/lib/supabase/server'
 
-import { useState } from 'react';
-import { AdminDashboard } from '@/components/AdminDashboard';
+export default async function AdminPage() {
+  const supabase = createServerClient()
+  const { data: articles } = await supabase.from('content').select('id, published')
+  const published = (articles || []).filter(a => a.published).length
+  const drafts = (articles || []).filter(a => !a.published).length
 
-function maskEmail(email: string) {
-  const [local, domain] = email.split('@');
-  const maskedLocal = local.charAt(0) + '*'.repeat(local.length - 2) + local.charAt(local.length - 1);
-  return `${maskedLocal}@${domain}`;
-}
+  const sections = [
+    { href: '/admin/articles', title: 'Articles', desc: 'Create, edit, publish, and feature insights' },
+    { href: '/admin/articles/new', title: 'New Article', desc: 'Write and publish a new insight' },
+    { href: '/admin/newsletters', title: 'Newsletter Banners', desc: 'Upload banners for Platform Path and AI Pulse' },
+    { href: '/admin/awards', title: 'Awards', desc: 'Add and manage recognitions' },
+    { href: '/admin/gallery', title: 'Gallery', desc: 'Upload and manage event photos' },
+  ]
 
-export default function AdminPage() {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [step, setStep] = useState<'email' | 'code'>('email');
-  const [email, setEmail] = useState('guptarupali@gmail.com');
-  const [code, setCode] = useState('');
-  const [error, setError] = useState('');
-  const [loading, setLoading] = useState(false);
-  const [message, setMessage] = useState('');
-  const [resendDisabled, setResendDisabled] = useState(false);
-  const [resendCountdown, setResendCountdown] = useState(0);
-
-  const handleSendOTP = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setLoading(true);
-    setError('');
-    setMessage('');
-
-    try {
-      const response = await fetch('/api/admin/send-otp', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email }),
-      });
-
-      const data = await response.json();
-
-      if (response.ok) {
-        setStep('code');
-        setMessage('✓ Code sent! Check your email.');
-        setResendDisabled(true);
-        setResendCountdown(60);
-        
-        // Countdown timer
-        const interval = setInterval(() => {
-          setResendCountdown(prev => {
-            if (prev <= 1) {
-              clearInterval(interval);
-              setResendDisabled(false);
-              return 0;
-            }
-            return prev - 1;
-          });
-        }, 1000);
-      } else {
-        setError(data.error || 'Failed to send. Try again.');
-      }
-    } catch (err) {
-      setError('Connection error. Check internet and try again.');
-      console.error(err);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleVerifyOTP = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setLoading(true);
-    setError('');
-
-    if (!code || code.length !== 6) {
-      setError('⚠ Enter the complete 6-digit code');
-      setLoading(false);
-      return;
-    }
-
-    try {
-      const response = await fetch('/api/admin/verify-otp', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, code }),
-      });
-
-      const data = await response.json();
-
-      if (response.ok) {
-        setIsAuthenticated(true);
-        setCode('');
-      } else {
-        if (response.status === 400) {
-          setError('⚠ Code is invalid or expired. Try resending a new one.');
-        } else {
-          setError(data.error || 'Verification failed');
-        }
-      }
-    } catch (err) {
-      setError('⚠ Connection error. Check your internet and try again.');
-      console.error(err);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  if (isAuthenticated) {
-    return (
-      <div className="min-h-screen bg-bg">
-        <AdminDashboard onLogout={() => setIsAuthenticated(false)} />
-      </div>
-    );
+  const card = {
+    display: 'block',
+    padding: '24px',
+    background: '#141414',
+    borderRadius: '10px',
+    textDecoration: 'none',
+    color: 'inherit',
+    border: '1px solid #2a2a2a',
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-bg p-4">
-      <div className="w-full max-w-md rounded-2xl border border-line-2 bg-panel p-8">
-        <h1 className="text-2xl text-cream mb-2">Admin Dashboard</h1>
-        <p className="text-sm text-muted mb-6">Email verification</p>
+    <div style={{ padding: '40px', maxWidth: '1000px', margin: '0 auto' }}>
+      <h1 style={{ marginBottom: '30px' }}>Admin Dashboard</h1>
 
-        {step === 'email' ? (
-          <form onSubmit={handleSendOTP} className="space-y-4">
-            <div>
-              <label className="block text-sm text-cream mb-2">Email</label>
-              <input
-                type="password"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="••••••••••@••••••••"
-                className="w-full px-4 py-2 rounded-lg bg-bg border border-line-2 text-cream focus:outline-none focus:border-gold tracking-widest"
-                required
-                autoComplete="off"
-              />
-              <p className="text-xs text-muted mt-2">Email masked for security. Only the authorized address works.</p>
-            </div>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '16px', marginBottom: '40px' }}>
+        <div style={{ padding: '20px', background: '#141414', borderRadius: '10px' }}>
+          <p style={{ color: '#999', margin: '0 0 8px 0', fontSize: '14px' }}>Published Articles</p>
+          <h2 style={{ margin: 0, fontSize: '32px', color: '#C9A24B' }}>{published}</h2>
+        </div>
+        <div style={{ padding: '20px', background: '#141414', borderRadius: '10px' }}>
+          <p style={{ color: '#999', margin: '0 0 8px 0', fontSize: '14px' }}>Drafts</p>
+          <h2 style={{ margin: 0, fontSize: '32px' }}>{drafts}</h2>
+        </div>
+      </div>
 
-            {error && <p className="text-sm text-red-400">⚠ {error}</p>}
-            {message && <p className="text-sm text-gold">{message}</p>}
-
-            <button
-              type="submit"
-              disabled={loading}
-              className="w-full py-2 rounded-lg bg-gold text-bg font-medium hover:bg-gold-2 transition disabled:opacity-50"
-            >
-              {loading ? 'Sending...' : 'Send Access Code'}
-            </button>
-          </form>
-        ) : (
-          <form onSubmit={handleVerifyOTP} className="space-y-4">
-            <div className="p-3 rounded-lg bg-bg border border-line-2">
-              <p className="text-xs text-muted mb-1">Sending to:</p>
-              <p className="text-sm text-cream font-mono">{maskEmail(email)}</p>
-            </div>
-
-            <div>
-              <label className="block text-sm text-cream mb-2">Enter Code</label>
-              <input
-                type="text"
-                value={code}
-                onChange={(e) => setCode(e.target.value.toUpperCase())}
-                placeholder="000000"
-                maxLength={6}
-                className="w-full px-4 py-2 rounded-lg bg-bg border border-line-2 text-cream focus:outline-none focus:border-gold text-center text-2xl tracking-widest font-mono"
-                required
-              />
-              <p className="text-xs text-muted mt-2">6-digit code from your email (10 min expiry)</p>
-            </div>
-
-            {error && <p className="text-sm text-red-400">⚠ {error}</p>}
-
-            <button
-              type="submit"
-              disabled={loading}
-              className="w-full py-2 rounded-lg bg-gold text-bg font-medium hover:bg-gold-2 transition disabled:opacity-50"
-            >
-              {loading ? 'Verifying...' : 'Verify & Login'}
-            </button>
-
-            <button
-              type="button"
-              onClick={handleSendOTP}
-              disabled={resendDisabled || loading}
-              className="w-full py-2 rounded-lg border border-line-2 text-cream hover:border-gold transition disabled:opacity-40 text-sm"
-            >
-              {resendDisabled ? `Resend in ${resendCountdown}s` : 'Resend Code'}
-            </button>
-
-            <button
-              type="button"
-              onClick={() => {
-                setStep('email');
-                setCode('');
-                setError('');
-                setMessage('');
-                setResendDisabled(false);
-                setResendCountdown(0);
-              }}
-              className="w-full py-2 rounded-lg text-cream hover:text-gold transition text-sm"
-            >
-              Use Different Email
-            </button>
-          </form>
-        )}
+      <h2 style={{ fontSize: '18px', marginBottom: '16px', color: '#999' }}>Manage Content</h2>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '16px' }}>
+        {sections.map((s) => (
+          <Link key={s.href} href={s.href} style={card}>
+            <h3 style={{ margin: '0 0 6px 0', fontSize: '17px' }}>{s.title}</h3>
+            <p style={{ color: '#999', margin: 0, fontSize: '14px' }}>{s.desc}</p>
+          </Link>
+        ))}
       </div>
     </div>
-  );
+  )
 }

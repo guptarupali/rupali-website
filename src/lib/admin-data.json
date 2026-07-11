@@ -180,55 +180,80 @@
   "advisoryServices": [
     {
       "id": "adv-1",
-      "title": "Platform & Architecture Review",
-      "description": "An expert assessment of your platform strategy, internal developer platform, and cloud architecture."
+      "title": "Agentic AI Governance & AgentOps",
+      "description": "The operating model, guardrails, and observability to run autonomous agents safely at enterprise scale. Agent governance councils, human-in-the-loop controls, behavioural drift detection, and the AgentOps discipline that keeps autonomous systems accountable. For leaders moving from AI pilots to agents that act on real systems."
     },
     {
       "id": "adv-2",
-      "title": "Agentic AI Governance",
-      "description": "Designing guardrails, AgentOps, and the operating model to run autonomous AI safely."
+      "title": "AI-Native Platform Engineering",
+      "description": "Designing platforms with intelligence built into the foundation, not bolted on. GenAI copilots in the SDLC, AI gateways and centralized LLM orchestration, AI-powered observability, and the platform architecture that lets AI scale securely across hundreds of engineers. For organizations making AI a first-class platform capability."
     },
     {
       "id": "adv-3",
-      "title": "Engineering Operating Model",
-      "description": "Platform as a product, golden paths, and developer experience that drives adoption."
+      "title": "FinTech, Payments & Financial Crime Platforms",
+      "description": "Platform and data architecture for environments where getting it wrong is not an option. Drawn from delivering AML, transaction monitoring, sanctions screening, KYC, and cross-border payments across Tier-1 financial services, improving detection effectiveness by around 30 percent. For regulated businesses that need scale and audit readiness together."
     },
     {
       "id": "adv-4",
+      "title": "Customer Data & Enterprise Architecture",
+      "description": "Customer 360, data platforms, and API strategy that turn fragmented data into a governed, usable asset. Built on large-scale customer data migrations, enterprise API governance, and data architecture serving global retail and financial businesses. For teams unifying customer data without losing control of it."
+    },
+    {
+      "id": "adv-5",
+      "title": "Engineering at Scale & Operating Model",
+      "description": "Platform as a product, golden paths, multi-tenant architecture, and the developer experience that drives adoption. Grounded in consolidating 110+ environments into multi-tenant Kubernetes, cutting deployment cost by half and onboarding by 40 percent, and leading engineering organizations of 300-plus. For leaders standardizing without slowing teams down."
+    },
+    {
+      "id": "adv-6",
       "title": "Executive & Board Advisory",
-      "description": "Translating AI and platform strategy into business outcomes for leadership teams."
+      "description": "Translating platform and AI strategy into the cost, risk, and revenue outcomes leadership teams can act on. Twenty years of turning complex engineering decisions into clear business tradeoffs, from FinOps discipline to build-versus-buy calls worth millions. For boards and executives who need the technology narrative to make business sense."
     }
   ],
   "speakingTopics": [
     {
       "id": "topic-1",
       "title": "Governing Agentic AI at Enterprise Scale",
-      "description": "Guardrails, AgentOps, observability, and the trust problem behind autonomous, multi agent systems."
+      "description": "Guardrails, AgentOps, observability, and the trust problem behind autonomous, multi-agent systems."
     },
     {
       "id": "topic-2",
+      "title": "AI-Native Platforms",
+      "description": "Building intelligence into the platform foundation rather than bolting it on. AI gateways, LLM orchestration, and copilots embedded across the engineering lifecycle."
+    },
+    {
+      "id": "topic-3",
+      "title": "Where Enterprise AI Actually Breaks",
+      "description": "Why most enterprise AI fails at the platform and governance layer, not the model layer, and how to build it so it holds."
+    },
+    {
+      "id": "topic-4",
+      "title": "The Trust Problem in Autonomous AI",
+      "description": "Behavioural drift, human-in-the-loop control, and lineage. Scaling agents is a trust and governance challenge before it is a technology one."
+    },
+    {
+      "id": "topic-5",
+      "title": "From Observability to AIOps",
+      "description": "Moving operations from reactive dashboards to predictive, self-healing systems powered by AI-driven detection and automated remediation."
+    },
+    {
+      "id": "topic-6",
       "title": "Platform Engineering Excellence",
       "description": "Invisible platforms, internal developer platforms, golden paths, and platform as a product."
     },
     {
-      "id": "topic-3",
+      "id": "topic-7",
       "title": "Chaos Engineering as a Catalyst",
       "description": "Testing assumptions and building resilient infrastructure as code."
     },
     {
-      "id": "topic-4",
+      "id": "topic-8",
       "title": "Cloud Costs Beyond FinOps",
       "description": "Embedding cost discipline into CI/CD with policy as code and observability."
     },
     {
-      "id": "topic-5",
-      "title": "Women in Leadership",
-      "description": "Raising others while you rise, and building systems that include more voices."
-    },
-    {
-      "title": "Test ",
-      "description": "Test",
-      "id": "1780770266001"
+      "id": "topic-9",
+      "title": "Women in Technology Leadership",
+      "description": "Raising others while you rise, building systems that include more voices, and what it takes to grow as a woman in engineering leadership."
     }
   ],
   "bio": "As a seasoned technology leader with more than 20 years of experience, I bring a strategic approach to architecting highly scalable, resilient distributed platforms and leading full-scale digital transformations. With expertise in distributed architecture, platform engineering, GenAI and Agentic AI innovation and transformation, data and microservices architecture, cloud and domain driven design, I ensure solutions align seamlessly with business goals while enhancing customer centricity, cost efficiency, revenue generation and accelerating time-to-market.",

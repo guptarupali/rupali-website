@@ -13,39 +13,42 @@ export default function Speaking() {
       <div className="grid gap-12 lg:grid-cols-2">
         <div>
           <Kicker>Signature Topics</Kicker>
-          <div className="mt-5 space-y-4">
+          <div className="mt-5 grid gap-4 sm:grid-cols-2">
             {speakingTopics.map((t) => (
               <div key={t.h} className="rounded-xl border border-line-2 bg-panel p-5">
-                <h3 className="text-lg text-cream">{t.h}</h3>
+                <h3 className="text-base text-cream">{t.h}</h3>
                 <p className="mt-2 text-sm text-muted">{t.p}</p>
               </div>
             ))}
           </div>
-          <Kicker>Recent Engagements</Kicker>
-          <div className="mt-5 space-y-3">
-            {events.map((e) => (
-              <div key={e.n} className="rounded-lg border border-line-2 bg-panel p-4 hover:border-gold transition">
-                <div className="flex items-start justify-between gap-3 mb-2">
-                  <div className="flex-1">
-                    <h4 className="text-cream font-medium text-sm">{e.n}</h4>
-                    <p className="text-xs text-muted mt-1">{e.m}</p>
+
+          <details className="mt-10 group">
+            <summary className="cursor-pointer list-none flex items-center justify-between rounded-xl border border-line-2 bg-panel px-5 py-4 hover:border-gold transition">
+              <span className="text-cream font-medium">Recent Engagements ({events.length})</span>
+              <span className="text-gold text-sm group-open:rotate-180 transition-transform">▼</span>
+            </summary>
+            <div className="mt-4 space-y-3">
+              {events.map((e) => (
+                <div key={e.n} className="rounded-lg border border-line-2 bg-panel p-4 hover:border-gold transition">
+                  <div className="flex items-start justify-between gap-3 mb-2">
+                    <div className="flex-1">
+                      <h4 className="text-cream font-medium text-sm">{e.n}</h4>
+                      <p className="text-xs text-muted mt-1">{e.m}</p>
+                    </div>
+                    <span className="shrink-0 font-mono text-xs text-gold bg-panel px-2 py-1 rounded border border-line-2">{e.r}</span>
                   </div>
-                  <span className="shrink-0 font-mono text-xs text-gold bg-panel px-2 py-1 rounded border border-line-2">{e.r}</span>
+                  {e.linkedIn && (
+                    <a href={e.linkedIn} target="_blank" rel="noopener noreferrer"
+                       className="text-xs text-gold hover:text-gold-2 transition inline-flex items-center gap-1 mt-3">
+                      View on LinkedIn →
+                    </a>
+                  )}
                 </div>
-                {e.linkedIn && (
-                  <a 
-                    href={e.linkedIn} 
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                    className="text-xs text-gold hover:text-gold-2 transition inline-flex items-center gap-1 mt-3"
-                  >
-                    View on LinkedIn →
-                  </a>
-                )}
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
+          </details>
         </div>
+
         <div>
           <Kicker>Speaking Request</Kicker>
           <div className="mt-5">
