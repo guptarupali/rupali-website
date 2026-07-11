@@ -3,6 +3,7 @@ import { pageMeta } from "@/lib/seo";
 import { media } from "@/lib/data";
 import { RequestForm } from "@/components/forms/RequestForm";
 import { site } from "@/lib/site";
+import { createServerClient } from "@/lib/supabase/server";
 import Image from "next/image";
 
 export const metadata = pageMeta("Media Kit", "Professional materials, biography, headshots, and media requests.", "/media");
@@ -10,7 +11,13 @@ export const metadata = pageMeta("Media Kit", "Professional materials, biography
 const bioShort = "Rupali Gupta is Global Director of Platform Engineering at Dunnhumby, a two time LinkedIn Top Voice, and a keynote speaker on platform engineering and the governance of agentic AI.";
 const bioLong = "Rupali Gupta is a global technology executive and enterprise architect with more than two decades of experience. As Global Director of Platform Engineering at Dunnhumby, a Tesco company, she leads global platforms, applications, and developer experience, and drives AI native platform engineering, AgentOps, and the governance of autonomous multi agent systems. Her foundation is deep FinTech and regulated financial services, across more than a decade at Fidelity International. She is a two time LinkedIn Top Voice, a multiple award winning engineering leader, a global keynote speaker, and an advocate for women in technology.";
 
-export default function Media() {
+export default async function Media() {
+  const supabase = createServerClient();
+  const { data: mediaKit } = await supabase.from("media_kit").select("*").order("sort_order");
+  const credentials = (mediaKit || []).filter((i) => i.section === "credential");
+  const topics = (mediaKit || []).filter((i) => i.section === "topic").map((t) => t.value);
+  const bioShortDb = (mediaKit || []).find((i) => i.section === "bio-short")?.value;
+  const bioLongDb = (mediaKit || []).find((i) => i.section === "bio-long")?.value;
   return (
     <>
       {/* Header */}
@@ -24,11 +31,11 @@ export default function Media() {
           <div className="lg:col-span-2 space-y-8">
             <div>
               <Kicker>Short Biography</Kicker>
-              <p className="mt-3 text-text">{bioShort}</p>
+              <p className="mt-3 text-text">{bioShortDb || bioShort}</p>
             </div>
             <div>
               <Kicker>Full Biography</Kicker>
-              <p className="mt-3 text-muted leading-relaxed">{bioLong}</p>
+              <p className="mt-3 text-muted leading-relaxed">{bioLongDb || bioLong}</p>
             </div>
           </div>
 
@@ -37,8 +44,10 @@ export default function Media() {
             <div className="space-y-2 text-sm">
               <a href="https://www.linkedin.com/in/rupaligupta24" target="_blank" rel="noopener" className="block p-3 rounded-lg border border-line-2 bg-panel hover:border-gold transition text-cream">LinkedIn Profile →</a>
               <a href="https://x.com/RupaliGupta24" target="_blank" rel="noopener" className="block p-3 rounded-lg border border-line-2 bg-panel hover:border-gold transition text-cream">X / Twitter →</a>
-              <a href="https://instagram.com/RupaliGupta24" target="_blank" rel="noopener" className="block p-3 rounded-lg border border-line-2 bg-panel hover:border-gold transition text-cream">Instagram →</a>
+              <a href="https://www.instagram.com/rupali.gupta24/" target="_blank" rel="noopener" className="block p-3 rounded-lg border border-line-2 bg-panel hover:border-gold transition text-cream">Instagram →</a>
               <a href="https://medium.com/@guptarupali" target="_blank" rel="noopener" className="block p-3 rounded-lg border border-line-2 bg-panel hover:border-gold transition text-cream">Medium →</a>
+            <a href="https://www.threads.com/@rupali.gupta24" target="_blank" rel="noopener" className="block p-3 rounded-lg border border-line-2 bg-panel hover:border-gold transition text-cream">Threads →</a>
+            <a href="https://www.youtube.com/channel/UCDn4BbLqa7V2nFEnMfVhnEw" target="_blank" rel="noopener" className="block p-3 rounded-lg border border-line-2 bg-panel hover:border-gold transition text-cream">YouTube →</a>
             </div>
           </div>
         </div>
@@ -95,15 +104,7 @@ export default function Media() {
           <div>
             <Kicker>Speaking Topics</Kicker>
             <div className="mt-5 space-y-3">
-              {[
-                "Platform Engineering at Enterprise Scale",
-                "Agentic AI: Governance, Observability, and Autonomous Systems",
-                "Building AI-Native Organizations",
-                "From DevOps to Platform Engineering",
-                "Cloud-Native Transformation and Multi-Tenancy",
-                "FinOps and Cost Intelligence in Platform Engineering",
-                "Women in Technology Leadership"
-              ].map((topic) => (
+              {topics.map((topic) => (
                 <div key={topic} className="p-4 rounded-lg border border-line-2 bg-panel">
                   <p className="text-cream text-sm">{topic}</p>
                 </div>
@@ -114,14 +115,7 @@ export default function Media() {
           <div>
             <Kicker>Key Credentials</Kicker>
             <div className="mt-5 space-y-3">
-              {[
-                { label: "Current Role", value: "Global Director of Platform Engineering, Dunnhumby" },
-                { label: "Experience", value: "20+ years in Enterprise Architecture, FinTech, Platform Engineering" },
-                { label: "Leadership", value: "Led 300+ global engineering teams, £30M+ portfolio management" },
-                { label: "Recognition", value: "Digital Renaissance Leader 2025, Multiple Award Winner" },
-                { label: "Speaking", value: "17+ keynotes 2024-2025 at global forums" },
-                { label: "Education", value: "B.Tech Computer Science, PG Data Science (UCD Dublin)" },
-              ].map((item) => (
+              {credentials.map((item) => (
                 <div key={item.label} className="p-4 rounded-lg border border-line-2 bg-panel">
                   <p className="text-xs text-gold mb-1">{item.label}</p>
                   <p className="text-sm text-cream">{item.value}</p>

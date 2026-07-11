@@ -4,9 +4,11 @@ import { Container, Section, SectionHead, Btn, Kicker } from "@/components/ui";
 import { stats, awards } from "@/lib/data";
 import { site } from "@/lib/site";
 import { createServerClient } from "@/lib/supabase/server";
+import { RecommendationsCarousel } from "@/components/RecommendationsCarousel";
 
 export default async function Home() {
   const supabase = createServerClient();
+  const { data: recommendations } = await supabase.from("recommendations").select("*").order("sort_order");
   const { data: articles } = await supabase
     .from("content")
     .select("*")
@@ -89,6 +91,11 @@ export default async function Home() {
           ))}
         </div>
         <div className="mt-10"><Btn href="/insights" variant="ghost">All insights</Btn></div>
+      </Section>
+
+      <Section>
+        <SectionHead kicker="Recommendations" title="What leaders say about working with Rupali." />
+        <RecommendationsCarousel recommendations={recommendations || []} />
       </Section>
 
       <Section className="bg-bg-2">

@@ -273,11 +273,23 @@
     {
       "id": "social-3",
       "platform": "Instagram",
-      "url": "https://instagram.com/RupaliGupta24",
-      "handle": "@RupaliGupta24"
+      "url": "https://www.instagram.com/rupali.gupta24/",
+      "handle": "@rupali.gupta24"
     },
     {
       "id": "social-4",
+      "platform": "Threads",
+      "url": "https://www.threads.com/@rupali.gupta24",
+      "handle": "@rupali.gupta24"
+    },
+    {
+      "id": "social-5",
+      "platform": "YouTube",
+      "url": "https://www.youtube.com/channel/UCDn4BbLqa7V2nFEnMfVhnEw",
+      "handle": "Rupali Gupta"
+    },
+    {
+      "id": "social-6",
       "platform": "Medium",
       "url": "https://medium.com/@guptarupali",
       "handle": "@guptarupali"

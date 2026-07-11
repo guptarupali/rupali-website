@@ -13,6 +13,8 @@ export default async function AdminPage() {
     { href: '/admin/newsletters', title: 'Newsletter Banners', desc: 'Upload banners for Platform Path and AI Pulse' },
     { href: '/admin/awards', title: 'Awards', desc: 'Add and manage recognitions' },
     { href: '/admin/gallery', title: 'Gallery', desc: 'Upload and manage event photos' },
+    { href: '/admin/media-kit', title: 'Media Kit', desc: 'Edit credentials and speaking topics' },
+    { href: '/admin/recommendations', title: 'Recommendations', desc: 'Add or remove testimonials shown on the homepage' },
   ]
 
   const card = {
