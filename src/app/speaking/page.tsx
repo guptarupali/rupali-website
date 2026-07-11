@@ -1,17 +1,21 @@
 import { Section, SectionHead, Kicker } from "@/components/ui";
 import { pageMeta } from "@/lib/seo";
-import { speakingTopics, events } from "@/lib/data";
+import { speakingTopics } from "@/lib/data";
+import { createServerClient } from "@/lib/supabase/server";
 import { RequestForm } from "@/components/forms/RequestForm";
 import { site } from "@/lib/site";
 
 export const metadata = pageMeta("Speaking", "Keynotes and panels on agentic AI governance, platform engineering, and engineering leadership.", "/speaking");
 
-export default function Speaking() {
+export default async function Speaking() {
+  const supabase = createServerClient();
+  const { data: events } = await supabase.from("events").select("*").order("sort_order");
+  const eventList = events || [];
   return (
     <Section>
       <SectionHead kicker="Speaking" title="Keynotes on agentic AI, platforms, and engineering at scale." sub="A global keynote speaker across India's leading technology forums, known for turning hard architecture into clear, actionable strategy." />
       <div className="grid gap-12 lg:grid-cols-2">
-        <div>
+        <div id="topics" style={{ scrollMarginTop: "90px" }}>
           <Kicker>Signature Topics</Kicker>
           <div className="mt-5 grid gap-4 sm:grid-cols-2">
             {speakingTopics.map((t) => (
@@ -22,23 +26,23 @@ export default function Speaking() {
             ))}
           </div>
 
-          <details className="mt-10 group">
+          <details id="engagements" className="mt-10 group" style={{ scrollMarginTop: "90px" }}>
             <summary className="cursor-pointer list-none flex items-center justify-between rounded-xl border border-line-2 bg-panel px-5 py-4 hover:border-gold transition">
-              <span className="text-cream font-medium">Recent Engagements ({events.length})</span>
+              <span className="text-cream font-medium">Recent Engagements ({eventList.length})</span>
               <span className="text-gold text-sm group-open:rotate-180 transition-transform">▼</span>
             </summary>
             <div className="mt-4 space-y-3">
-              {events.map((e) => (
-                <div key={e.n} className="rounded-lg border border-line-2 bg-panel p-4 hover:border-gold transition">
+              {eventList.map((e: any) => (
+                <div key={e.id} className="rounded-lg border border-line-2 bg-panel p-4 hover:border-gold transition">
                   <div className="flex items-start justify-between gap-3 mb-2">
                     <div className="flex-1">
-                      <h4 className="text-cream font-medium text-sm">{e.n}</h4>
-                      <p className="text-xs text-muted mt-1">{e.m}</p>
+                      <h4 className="text-cream font-medium text-sm">{e.name}</h4>
+                      <p className="text-xs text-muted mt-1">{e.description}</p>
                     </div>
-                    <span className="shrink-0 font-mono text-xs text-gold bg-panel px-2 py-1 rounded border border-line-2">{e.r}</span>
+                    <span className="shrink-0 font-mono text-xs text-gold bg-panel px-2 py-1 rounded border border-line-2">{e.role}</span>
                   </div>
-                  {e.linkedIn && (
-                    <a href={e.linkedIn} target="_blank" rel="noopener noreferrer"
+                  {e.linkedin_url && (
+                    <a href={e.linkedin_url} target="_blank" rel="noopener noreferrer"
                        className="text-xs text-gold hover:text-gold-2 transition inline-flex items-center gap-1 mt-3">
                       View on LinkedIn →
                     </a>
@@ -49,7 +53,7 @@ export default function Speaking() {
           </details>
         </div>
 
-        <div>
+        <div id="request" style={{ scrollMarginTop: "90px" }}>
           <Kicker>Speaking Request</Kicker>
           <div className="mt-5">
             <RequestForm

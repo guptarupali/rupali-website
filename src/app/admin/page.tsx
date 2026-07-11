@@ -15,6 +15,7 @@ export default async function AdminPage() {
     { href: '/admin/gallery', title: 'Gallery', desc: 'Upload and manage event photos' },
     { href: '/admin/media-kit', title: 'Media Kit', desc: 'Edit credentials and speaking topics' },
     { href: '/admin/recommendations', title: 'Recommendations', desc: 'Add or remove testimonials shown on the homepage' },
+    { href: '/admin/events', title: 'Speaking Engagements', desc: 'Add, edit, or remove speaking events' },
   ]
 
   const card = {
