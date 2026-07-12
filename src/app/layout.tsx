@@ -19,8 +19,17 @@ const personLd = {
   name: site.name,
   jobTitle: site.role,
   url: site.url,
-  sameAs: [site.linkedin],
-  knowsAbout: ["Platform Engineering", "Agentic AI Governance", "Enterprise Architecture", "Developer Experience", "FinTech"],
+  sameAs: [
+    site.linkedin,
+    "https://medium.com/@guptarupali",
+    "https://x.com/RupaliGupta24",
+    "https://www.instagram.com/rupali.gupta24/",
+    "https://www.threads.com/@rupali.gupta24",
+    "https://www.youtube.com/channel/UCDn4BbLqa7V2nFEnMfVhnEw",
+  ],
+  knowsAbout: ["Platform Engineering", "Agentic AI Governance", "Enterprise Architecture", "Developer Experience", "FinTech", "Cloud Native", "AI Native Platforms", "Kubernetes", "DevOps", "Financial Crime Technology"],
+  description: "Global Director of Platform Engineering, keynote speaker on agentic AI governance, platform engineering, and engineering leadership.",
+  worksFor: { "@type": "Organization", name: "Dunnhumby" },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
