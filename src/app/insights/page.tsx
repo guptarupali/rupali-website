@@ -23,10 +23,10 @@ function groupByMonth(articles) {
 
 function ArticleRow({ article }) {
   return (
-    <div style={{ borderBottom: '1px solid #333', paddingBottom: '32px', marginBottom: '32px', display: 'grid', gridTemplateColumns: article.featured_image_url ? '180px 1fr' : '1fr', gap: '24px', alignItems: 'start' }}>
+    <div className="insight-card" style={{ borderBottom: '1px solid #333', paddingBottom: '32px', marginBottom: '32px', display: 'flex', flexWrap: 'wrap', gap: '24px', alignItems: 'flex-start' }}>
       {article.featured_image_url && (
         <Link href={`/insights/${article.slug}`}>
-          <img src={article.featured_image_url} alt={article.title} style={{ width: '180px', height: '120px', objectFit: 'cover', borderRadius: '8px', cursor: 'pointer' }} />
+          <img src={article.featured_image_url} alt={article.title} className="insight-thumb" style={{ objectFit: 'cover', borderRadius: '8px', cursor: 'pointer' }} />
         </Link>
       )}
       <div>
@@ -61,6 +61,14 @@ export default async function InsightsPage() {
 
   return (
     <div style={{ padding: '40px', maxWidth: '1000px', margin: '0 auto' }}>
+      <style>{`
+        .insight-thumb { width: 180px; height: 120px; }
+        .insight-card > div:last-child { flex: 1; min-width: 260px; }
+        @media (max-width: 640px) {
+          .insight-thumb { width: 100%; height: 200px; }
+          .insight-card > a, .insight-card > a > img { width: 100%; }
+        }
+      `}</style>
       <h1 style={{ marginBottom: '10px' }}>Insights</h1>
       <p style={{ color: '#999', marginBottom: '30px' }}>
         Deep perspectives on AI, Platform Engineering, and Technology Leadership

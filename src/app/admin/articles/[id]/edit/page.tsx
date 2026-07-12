@@ -92,7 +92,12 @@ export default function EditArticlePage() {
           <label style={{ display: 'block', marginBottom: '8px', color: '#999', fontSize: '14px' }}>Featured Image</label>
           <input type="file" accept="image/*" onChange={handleImageUpload} style={{ ...input, width: '100%' }} />
           {uploading && <p style={{ color: '#C9A24B', fontSize: '13px', marginTop: '8px' }}>Uploading...</p>}
-          {form.featured_image_url && <img src={form.featured_image_url} alt="preview" style={{ marginTop: '12px', maxWidth: '100%', borderRadius: '8px', border: '1px solid #333' }} />}
+          {form.featured_image_url && (
+            <div style={{ marginTop: '12px' }}>
+              <img src={form.featured_image_url} alt="preview" style={{ maxWidth: '100%', borderRadius: '8px', border: '1px solid #333', display: 'block' }} />
+              <button type="button" onClick={() => setForm({ ...form, featured_image_url: '' })} style={{ marginTop: '8px', background: 'transparent', border: '1px solid #ff6b6b', color: '#ff6b6b', padding: '6px 14px', borderRadius: '4px', cursor: 'pointer', fontSize: '13px' }}>Remove image</button>
+            </div>
+          )}
         </div>
         <textarea placeholder="Excerpt" value={form.excerpt} onChange={(e) => setForm({ ...form, excerpt: e.target.value })} required rows={2} style={input} />
         <textarea placeholder="Content (Markdown)" value={form.content_markdown} onChange={(e) => setForm({ ...form, content_markdown: e.target.value })} required rows={12} style={{ ...input, fontFamily: 'monospace' }} />
