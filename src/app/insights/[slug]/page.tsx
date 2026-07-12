@@ -58,8 +58,22 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
     // Simple line-break rendering
     const contentLines = (article.content_markdown || '').split('\n\n').filter(Boolean)
 
+  const articleLd = {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    headline: article.title,
+    description: article.excerpt || undefined,
+    image: article.featured_image_url || undefined,
+    datePublished: article.published_at || undefined,
+    dateModified: article.updated_at || article.published_at || undefined,
+    author: { "@type": "Person", name: "Rupali Gupta", url: "https://rupaligupta.in" },
+    publisher: { "@type": "Person", name: "Rupali Gupta", url: "https://rupaligupta.in" },
+    mainEntityOfPage: { "@type": "WebPage", "@id": `https://rupaligupta.in/insights/${article.slug}` },
+  }
+
     return (
       <article className="min-h-screen bg-bg text-cream">
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleLd) }} />
         {/* Featured Image */}
         {article.featured_image_url && (
           <div className="w-full h-96 bg-panel overflow-hidden">
