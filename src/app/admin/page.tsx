@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import { LogoutButton } from '@/components/LogoutButton'
 import { createServerClient } from '@/lib/supabase/server'
 
 export default async function AdminPage() {
@@ -30,7 +31,7 @@ export default async function AdminPage() {
 
   return (
     <div style={{ padding: '40px', maxWidth: '1000px', margin: '0 auto' }}>
-      <h1 style={{ marginBottom: '30px' }}>Admin Dashboard</h1>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '30px' }}><h1 style={{ margin: 0 }}>Admin Dashboard</h1><LogoutButton /></div>
 
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '16px', marginBottom: '40px' }}>
         <div style={{ padding: '20px', background: '#141414', borderRadius: '10px' }}>
