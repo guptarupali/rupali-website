@@ -21,7 +21,7 @@ const personLd = {
   url: site.url,
   sameAs: [
     site.linkedin,
-    "https://medium.com/@guptarupali",
+    "https://medium.com/@rupali.gupta24",
     "https://x.com/RupaliGupta24",
     "https://www.instagram.com/rupali.gupta24/",
     "https://www.threads.com/@rupali.gupta24",

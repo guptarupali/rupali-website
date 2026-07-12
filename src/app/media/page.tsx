@@ -45,7 +45,7 @@ export default async function Media() {
               <a href="https://www.linkedin.com/in/rupaligupta24" target="_blank" rel="noopener" className="block p-3 rounded-lg border border-line-2 bg-panel hover:border-gold transition text-cream">LinkedIn Profile →</a>
               <a href="https://x.com/RupaliGupta24" target="_blank" rel="noopener" className="block p-3 rounded-lg border border-line-2 bg-panel hover:border-gold transition text-cream">X / Twitter →</a>
               <a href="https://www.instagram.com/rupali.gupta24/" target="_blank" rel="noopener" className="block p-3 rounded-lg border border-line-2 bg-panel hover:border-gold transition text-cream">Instagram →</a>
-              <a href="https://medium.com/@guptarupali" target="_blank" rel="noopener" className="block p-3 rounded-lg border border-line-2 bg-panel hover:border-gold transition text-cream">Medium →</a>
+              <a href="https://medium.com/@rupali.gupta24" target="_blank" rel="noopener" className="block p-3 rounded-lg border border-line-2 bg-panel hover:border-gold transition text-cream">Medium →</a>
             <a href="https://www.threads.com/@rupali.gupta24" target="_blank" rel="noopener" className="block p-3 rounded-lg border border-line-2 bg-panel hover:border-gold transition text-cream">Threads →</a>
             <a href="https://www.youtube.com/channel/UCDn4BbLqa7V2nFEnMfVhnEw" target="_blank" rel="noopener" className="block p-3 rounded-lg border border-line-2 bg-panel hover:border-gold transition text-cream">YouTube →</a>
             </div>

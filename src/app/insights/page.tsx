@@ -73,7 +73,7 @@ export default async function InsightsPage() {
       <p style={{ color: '#999', marginBottom: '30px' }}>
         Deep perspectives on AI, Platform Engineering, and Technology Leadership
       </p>
-      <a href="https://medium.com/@guptarupali" target="_blank" rel="noopener noreferrer" style={{ display: 'inline-block', color: '#C9A24B', textDecoration: 'none', fontSize: '14px', marginBottom: '30px', borderBottom: '1px solid rgba(201,162,75,0.4)', paddingBottom: '2px' }}>
+      <a href="https://medium.com/@rupali.gupta24" target="_blank" rel="noopener noreferrer" style={{ display: 'inline-block', color: '#C9A24B', textDecoration: 'none', fontSize: '14px', marginBottom: '30px', borderBottom: '1px solid rgba(201,162,75,0.4)', paddingBottom: '2px' }}>
         Also read my writing on Medium →
       </a>
 
